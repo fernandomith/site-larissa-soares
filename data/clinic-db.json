@@ -1,0 +1,513 @@
+{
+  "settings": {
+    "clinicName": "Estética Larissa Soares",
+    "professionalName": "Larissa Soares",
+    "professionalTitle": "Esteticista e Cosmetóloga • Massoterapeuta • Lash Designer",
+    "crbmOrRegister": "Graduada em Estética e Cosmetologia • Especialista em Massoterapia Clínica & Lash Design",
+    "whatsappNumber": "5511998765432",
+    "vipGroupUrl": "https://chat.whatsapp.com/EsteticaLarissaSoaresVIP",
+    "instagramUrl": "https://instagram.com/esteticalarissasoares",
+    "tiktokUrl": "https://tiktok.com/@esteticalarissasoares",
+    "addressLine": "Av. Paulista, 1450 — Sala 804, Bela Vista / Jardins, São Paulo - SP",
+    "googleMapsUrl": "https://maps.google.com/?q=Av.+Paulista,1450,Sao+Paulo",
+    "wazeUrl": "https://waze.com/ul?q=Av.%20Paulista%201450%20Sao%20Paulo",
+    "openingHoursText": "Terça a Sexta: 09h às 19h • Sábado: 09h às 16h",
+    "workStartHour": "09:00",
+    "workEndHour": "19:00",
+    "slotIntervalMinutes": 30,
+    "paymentSettings": {
+      "pixEnabled": true,
+      "pixKey": "financeiro@larissasoaresestetica.com.br",
+      "pixHolderName": "Larissa Soares Estética & Bem-Estar",
+      "creditCardEnabled": true,
+      "creditCardMaxInstallments": 6,
+      "debitCardEnabled": true,
+      "cashInPersonEnabled": true
+    }
+  },
+  "procedures": [
+    {
+      "id": "proc-estetica-1",
+      "name": "Limpeza de Pele Botânica & Hidratação Profunda",
+      "category": "estetica",
+      "description": "Protocolo exclusivo de higienização profunda com ativos botânicos calmantes, extração delicada por ultrassom, alta frequência e máscara de quartzo rosa para renovação celular sem agressão.",
+      "benefits": [
+        "Desobstrução suave dos poros e controle da oleosidade",
+        "Renovação do viço natural com séruns antioxidantes",
+        "Ação calmante imediata sem vermelhidão excessiva"
+      ],
+      "durationMinutes": 90,
+      "originalPrice": 220,
+      "onPromo": true,
+      "promoPrice": 179,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-estetica-facial.jpg",
+      "active": true
+    },
+    {
+      "id": "proc-estetica-2",
+      "name": "Revitalização Dermocosmética & Peeling Enzimático Glow",
+      "category": "estetica",
+      "description": "Tratamento cosmetológico personalizado com enzimas naturais de romã e vitamina C estabilizada para uniformizar a textura da pele, suavizar manchas superficiais e devolver luminosidade.",
+      "benefits": [
+        "Uniformização do tom e textura cutânea",
+        "Estímulo natural de colágeno e hidratação prolongada",
+        "Seguro para todos os fototipos em qualquer estação"
+      ],
+      "durationMinutes": 60,
+      "originalPrice": 240,
+      "onPromo": false,
+      "promoPrice": 195,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-peeling-botanico.jpg",
+      "active": true
+    },
+    {
+      "id": "proc-estetica-3",
+      "name": "Detox Corporal & Escultura com Argilas Orgânicas",
+      "category": "estetica",
+      "description": "Esfoliação corporal com cristais vegetais seguida de envelopamento térmico com argila verde, centella asiática e ativos lipolíticos para melhora do contorno e textura da pele.",
+      "benefits": [
+        "Redução do aspecto de celulite e retenção hídrica",
+        "Pele macia, nutrida e com toque aveludado",
+        "Estímulo metabólico local não invasivo"
+      ],
+      "durationMinutes": 75,
+      "originalPrice": 250,
+      "onPromo": false,
+      "promoPrice": 210,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-drenagem-modeladora.jpg",
+      "active": true
+    },
+    {
+      "id": "proc-masso-1",
+      "name": "Massagem Relaxante Neuro-Sensorial com Pedras Quentes",
+      "category": "massoterapia",
+      "description": "Terapia manual profunda combinando deslizamentos contínuos, óleos essenciais puros de lavanda francesa e termoterapia com pedras vulcânicas aquecidas para alívio de tensões musculares.",
+      "benefits": [
+        "Alívio imediato de dores cervicais, lombares e fadiga",
+        "Redução do cortisol e melhora na qualidade do sono",
+        "Reequilíbrio físico e mental em ambiente aromatizado"
+      ],
+      "durationMinutes": 60,
+      "originalPrice": 190,
+      "onPromo": false,
+      "promoPrice": 160,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-massoterapia.jpg",
+      "active": true
+    },
+    {
+      "id": "proc-masso-2",
+      "name": "Drenagem Linfática Método Exclusivo & Pós-Dia Intenso",
+      "category": "massoterapia",
+      "description": "Manobras rítmicas, precisas e suaves direcionadas ao sistema linfático para eliminar toxinas, desinchar pernas e abdômen e restaurar a sensação de leveza corporal.",
+      "benefits": [
+        "Redução visível do inchaço e retenção de líquidos",
+        "Melhora da circulação sanguínea e oxigenação tecidual",
+        "Alívio imediato de pernas cansadas e sensação de peso"
+      ],
+      "durationMinutes": 60,
+      "originalPrice": 200,
+      "onPromo": true,
+      "promoPrice": 165,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-drenagem-modeladora.jpg",
+      "active": true
+    },
+    {
+      "id": "proc-lash-1",
+      "name": "Extensão de Cílios Efeito Natural Sophistiqué (Fio a Fio / Brasileiro)",
+      "category": "lash",
+      "description": "Mapeamento personalizado do olhar com fios tecnológicos ultraleves de seda, respeitando a saúde dos fios naturais para um resultado elegante, confortável e duradouro.",
+      "benefits": [
+        "Olhar marcante e sofisticado ao acordar sem rímel",
+        "Isolamento técnico seguro que preserva os fios naturais",
+        "Visagismo personalizado para o formato dos seus olhos"
+      ],
+      "durationMinutes": 120,
+      "originalPrice": 260,
+      "onPromo": true,
+      "promoPrice": 215,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-lash-design.jpg",
+      "active": true
+    },
+    {
+      "id": "proc-lash-2",
+      "name": "Lash Lifting Nutritivo com Queratina & Tinting",
+      "category": "lash",
+      "description": "Curvatura, alinhamento e nutrição profunda dos seus próprios cílios naturais com vitaminas, pantenol e coloração especial, proporcionando efeito de cílios curvados por até 6 semanas.",
+      "benefits": [
+        "100% cílios naturais curvados, alinhados e fortalecidos",
+        "Zero necessidade de manutenção quinzenal",
+        "Ideal para quem busca naturalidade absoluta no dia a dia"
+      ],
+      "durationMinutes": 60,
+      "originalPrice": 185,
+      "onPromo": false,
+      "promoPrice": 155,
+      "promoValidUntil": "2026-12-01",
+      "imageUrl": "/images/proc-lash-lifting.jpg",
+      "active": true
+    }
+  ],
+  "clients": [
+    {
+      "id": "cli-1",
+      "fullName": "Camila Vasconcelos",
+      "whatsapp": "5511988112233",
+      "email": "camila.vasconcelos@email.com",
+      "notesAllergies": "Pele sensível à cânfora; prefere óleo de lavanda.",
+      "lastProcedureName": "Limpeza de Pele Botânica & Hidratação Profunda",
+      "lastCategory": "estetica",
+      "lastVisitAt": "2026-11-17",
+      "totalAppointments": 4,
+      "createdAt": "2026-10-06"
+    },
+    {
+      "id": "cli-2",
+      "fullName": "Beatriz Monteiro",
+      "whatsapp": "5511977223344",
+      "email": "bia.monteiro@email.com",
+      "notesAllergies": "Sem alergias relatadas. Usa lentes de contato.",
+      "lastProcedureName": "Extensão de Cílios Efeito Natural Sophistiqué (Fio a Fio / Brasileiro)",
+      "lastCategory": "lash",
+      "lastVisitAt": "2026-11-17",
+      "totalAppointments": 6,
+      "createdAt": "2026-09-23"
+    },
+    {
+      "id": "cli-3",
+      "fullName": "Helena Albuquerque",
+      "whatsapp": "5511966334455",
+      "email": "helena.albuquerque@email.com",
+      "notesAllergies": "Tensão muscular nos trapézios por home office.",
+      "lastProcedureName": "Massagem Relaxante Neuro-Sensorial com Pedras Quentes",
+      "lastCategory": "massoterapia",
+      "lastVisitAt": "2026-11-17",
+      "totalAppointments": 3,
+      "createdAt": "2026-10-06"
+    },
+    {
+      "id": "cli-4",
+      "fullName": "Fernanda Siqueira",
+      "whatsapp": "5511955443322",
+      "email": "fernanda.siqueira@email.com",
+      "notesAllergies": "Nenhuma alergia.",
+      "lastProcedureName": "Extensão de Cílios Efeito Natural Sophistiqué (Fio a Fio / Brasileiro)",
+      "lastCategory": "lash",
+      "lastVisitAt": "2026-10-06",
+      "totalAppointments": 2,
+      "createdAt": "2026-09-23"
+    },
+    {
+      "id": "cli-5",
+      "fullName": "Juliana Paiva Ribeiro",
+      "whatsapp": "5511944332211",
+      "email": "juliana.ribeiro@email.com",
+      "notesAllergies": "Gestante (2º trimestre) — apenas drenagem suave autorizada.",
+      "lastProcedureName": "Drenagem Linfática Método Exclusivo & Pós-Dia Intenso",
+      "lastCategory": "massoterapia",
+      "lastVisitAt": "2026-09-23",
+      "totalAppointments": 5,
+      "createdAt": "2026-09-23"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "apt-101",
+      "clientId": "cli-1",
+      "clientName": "Camila Vasconcelos",
+      "clientWhatsapp": "5511988112233",
+      "clientEmail": "camila.vasconcelos@email.com",
+      "notesAllergies": "Pele sensível à cânfora; prefere óleo de lavanda.",
+      "procedureIds": [
+        "proc-estetica-1"
+      ],
+      "procedureNames": [
+        "Limpeza de Pele Botânica & Hidratação Profunda"
+      ],
+      "primaryCategory": "estetica",
+      "date": "2026-11-17",
+      "startTime": "09:30",
+      "endTime": "11:00",
+      "totalDurationMinutes": 90,
+      "totalAmount": 179,
+      "paymentMethod": "pix",
+      "paymentTiming": "online_advance",
+      "paymentStatus": "paid",
+      "status": "confirmed",
+      "source": "online",
+      "createdAt": "2026-11-16"
+    },
+    {
+      "id": "apt-102",
+      "clientId": "cli-2",
+      "clientName": "Beatriz Monteiro",
+      "clientWhatsapp": "5511977223344",
+      "clientEmail": "bia.monteiro@email.com",
+      "notesAllergies": "Usa lentes de contato (remover antes do procedimento).",
+      "procedureIds": [
+        "proc-lash-1"
+      ],
+      "procedureNames": [
+        "Extensão de Cílios Efeito Natural Sophistiqué (Fio a Fio / Brasileiro)"
+      ],
+      "primaryCategory": "lash",
+      "date": "2026-11-17",
+      "startTime": "14:00",
+      "endTime": "16:00",
+      "totalDurationMinutes": 120,
+      "totalAmount": 215,
+      "paymentMethod": "cash_in_person",
+      "paymentTiming": "in_person",
+      "paymentStatus": "pending",
+      "status": "pending",
+      "source": "online",
+      "createdAt": "2026-11-17"
+    },
+    {
+      "id": "apt-103",
+      "clientId": "cli-3",
+      "clientName": "Helena Albuquerque",
+      "clientWhatsapp": "5511966334455",
+      "clientEmail": "helena.albuquerque@email.com",
+      "notesAllergies": "Tensão muscular nos trapézios.",
+      "procedureIds": [
+        "proc-masso-1"
+      ],
+      "procedureNames": [
+        "Massagem Relaxante Neuro-Sensorial com Pedras Quentes"
+      ],
+      "primaryCategory": "massoterapia",
+      "date": "2026-11-17",
+      "startTime": "16:30",
+      "endTime": "17:30",
+      "totalDurationMinutes": 60,
+      "totalAmount": 190,
+      "paymentMethod": "credit_card",
+      "paymentTiming": "in_person",
+      "installments": 2,
+      "paymentStatus": "pending",
+      "status": "confirmed",
+      "source": "manual",
+      "createdAt": "2026-11-16"
+    },
+    {
+      "id": "apt-104",
+      "clientId": "cli-5",
+      "clientName": "Juliana Paiva Ribeiro",
+      "clientWhatsapp": "5511944332211",
+      "clientEmail": "juliana.ribeiro@email.com",
+      "notesAllergies": "Drenagem suave.",
+      "procedureIds": [
+        "proc-masso-2"
+      ],
+      "procedureNames": [
+        "Drenagem Linfática Método Exclusivo & Pós-Dia Intenso"
+      ],
+      "primaryCategory": "massoterapia",
+      "date": "2026-11-18",
+      "startTime": "10:00",
+      "endTime": "11:00",
+      "totalDurationMinutes": 60,
+      "totalAmount": 165,
+      "paymentMethod": "pix",
+      "paymentTiming": "online_advance",
+      "paymentStatus": "paid",
+      "status": "confirmed",
+      "source": "online",
+      "createdAt": "2026-11-17"
+    },
+    {
+      "id": "apt-105",
+      "clientId": "cli-4",
+      "clientName": "Fernanda Siqueira",
+      "clientWhatsapp": "5511955443322",
+      "clientEmail": "fernanda.siqueira@email.com",
+      "notesAllergies": "",
+      "procedureIds": [
+        "proc-lash-2"
+      ],
+      "procedureNames": [
+        "Lash Lifting Nutritivo com Queratina & Tinting"
+      ],
+      "primaryCategory": "lash",
+      "date": "2026-11-19",
+      "startTime": "15:00",
+      "endTime": "16:00",
+      "totalDurationMinutes": 60,
+      "totalAmount": 185,
+      "paymentMethod": "debit_card",
+      "paymentTiming": "in_person",
+      "paymentStatus": "pending",
+      "status": "confirmed",
+      "source": "online",
+      "createdAt": "2026-11-17"
+    }
+  ],
+  "scheduleBlocks": [
+    {
+      "id": "blk-1",
+      "date": "2026-11-17",
+      "startTime": "12:00",
+      "endTime": "13:30",
+      "reason": "Horário de Almoço & Higienização da Cabine",
+      "blockType": "lunch"
+    },
+    {
+      "id": "blk-2",
+      "date": "2026-11-18",
+      "startTime": "12:00",
+      "endTime": "13:30",
+      "reason": "Horário de Almoço & Higienização da Cabine",
+      "blockType": "lunch"
+    },
+    {
+      "id": "blk-3",
+      "date": "2026-11-18",
+      "startTime": "17:30",
+      "endTime": "19:00",
+      "reason": " Compromisso Pessoal / Bloqueio de Agenda",
+      "blockType": "custom"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "trx-1",
+      "description": "Agendamento: Limpeza de Pele Botânica — Camila Vasconcelos",
+      "type": "income",
+      "category": "Estética & Cosmetologia",
+      "amount": 179,
+      "date": "2026-11-17",
+      "paymentMethod": "pix",
+      "paymentStatus": "paid",
+      "appointmentId": "apt-101",
+      "clientName": "Camila Vasconcelos",
+      "createdAt": "2026-11-16"
+    },
+    {
+      "id": "trx-2",
+      "description": "Agendamento: Extensão de Cílios Sophistiqué — Beatriz Monteiro",
+      "type": "income",
+      "category": "Lash Design",
+      "amount": 215,
+      "date": "2026-11-17",
+      "paymentMethod": "cash_in_person",
+      "paymentStatus": "pending",
+      "appointmentId": "apt-102",
+      "clientName": "Beatriz Monteiro",
+      "createdAt": "2026-11-17"
+    },
+    {
+      "id": "trx-3",
+      "description": "Agendamento: Massagem Relaxante Pedras Quentes — Helena Albuquerque",
+      "type": "income",
+      "category": "Massoterapia",
+      "amount": 190,
+      "date": "2026-11-17",
+      "paymentMethod": "credit_card",
+      "paymentStatus": "pending",
+      "appointmentId": "apt-103",
+      "clientName": "Helena Albuquerque",
+      "createdAt": "2026-11-16"
+    },
+    {
+      "id": "trx-4",
+      "description": "Agendamento: Drenagem Linfática — Juliana Paiva Ribeiro",
+      "type": "income",
+      "category": "Massoterapia",
+      "amount": 165,
+      "date": "2026-11-18",
+      "paymentMethod": "pix",
+      "paymentStatus": "paid",
+      "appointmentId": "apt-104",
+      "clientName": "Juliana Paiva Ribeiro",
+      "createdAt": "2026-11-17"
+    },
+    {
+      "id": "trx-5",
+      "description": "Combo Revitalização Facial + Lash Lifting — Cliente Mariana Costa",
+      "type": "income",
+      "category": "Estética & Cosmetologia",
+      "amount": 425,
+      "date": "2026-11-14",
+      "paymentMethod": "credit_card",
+      "paymentStatus": "paid",
+      "clientName": "Mariana Costa",
+      "createdAt": "2026-11-14"
+    },
+    {
+      "id": "trx-6",
+      "description": "Insumos Lash Design (Fios de Seda Premium, Adesivo Hipoalergênico & Pads)",
+      "type": "expense",
+      "category": "Insumos Lash Design",
+      "amount": 280,
+      "date": "2026-11-14",
+      "paymentMethod": "pix",
+      "paymentStatus": "paid",
+      "createdAt": "2026-11-14"
+    },
+    {
+      "id": "trx-7",
+      "description": "Dermocosméticos Botânicos, Séruns Vitamina C & Óleo Essencial de Lavanda",
+      "type": "expense",
+      "category": "Insumos Cosmetologia & Massoterapia",
+      "amount": 340,
+      "date": "2026-11-16",
+      "paymentMethod": "credit_card",
+      "paymentStatus": "paid",
+      "createdAt": "2026-11-16"
+    }
+  ],
+  "templates": [
+    {
+      "id": "tpl-1",
+      "slug": "lembrete-24h",
+      "title": "Lembrete de Agendamento (24h antes)",
+      "channel": "both",
+      "defaultAudience": "all",
+      "subject": "Seu momento de autocuidado amanhã ✨ | Estética Larissa Soares",
+      "content": "Olá, {nome}! Tudo bem? 🌿\nPassando para confirmar o seu momento de autocuidado amanhã para o procedimento *{procedimento}* aqui no espaço Estética Larissa Soares.\n\n📍 Endereço: Av. Paulista, 1450 - Sala 804\nResponda com \"CONFIRMO\" para validarmos seu horário. Espero por você!"
+    },
+    {
+      "id": "tpl-2",
+      "slug": "manutencao-cilios-15d",
+      "title": "Aviso de Manutenção de Cílios (15 dias)",
+      "channel": "whatsapp",
+      "defaultAudience": "lash",
+      "subject": "Hora de renovar o seu olhar ✨ | Manutenção Lash Design",
+      "content": "Oi, {nome}! Como estão seus cílios? ✨\nJá se passaram cerca de 15 dias desde o seu último procedimento de *Lash Design* ({procedimento}). Para manter o alinhamento impecável e o valor especial de manutenção, que tal agendarmos o seu retorno desta semana?"
+    },
+    {
+      "id": "tpl-3",
+      "slug": "divulgacao-promocao",
+      "title": "Divulgação de Promoção Exclusiva",
+      "channel": "both",
+      "defaultAudience": "inactive_30_days",
+      "subject": "Um presente especial para o seu autocuidado 🌹 | Estética Larissa Soares",
+      "content": "Olá, {nome}! Sentimos sua falta aqui no espaço! 🤍\nPreparamos condições especiais nesta semana em *Estética Facial, Massoterapia e Lash Design*, com valores promocionais por tempo limitado.\n\nAcesse nossa agenda online ou responda esta mensagem para garantir seu horário preferido!"
+    },
+    {
+      "id": "tpl-4",
+      "slug": "convite-grupo-vip",
+      "title": "Convite para o Grupo VIP do WhatsApp",
+      "channel": "both",
+      "defaultAudience": "all",
+      "subject": "Convite Exclusivo: Comunidade VIP Larissa Soares ✨",
+      "content": "Oi, {nome}! 🌿\nQuero te convidar para fazer parte da nossa *Comunidade VIP Estética Larissa Soares* no WhatsApp!\nLá eu compartilho em primeira mão:\n• Horários vagos de última hora\n• Dicas de skincare, relaxamento e cuidados com os cílios\n• Condições exclusivas para membros\n\nEntre gratuitamente pelo link: {link_vip}"
+    }
+  ],
+  "campaignLogs": [
+    {
+      "id": "cmp-1",
+      "templateTitle": "Aviso de Manutenção de Cílios (15 dias)",
+      "channel": "whatsapp",
+      "audience": "lash",
+      "recipientsCount": 2,
+      "sentAt": "2026-11-16"
+    }
+  ]
+}
