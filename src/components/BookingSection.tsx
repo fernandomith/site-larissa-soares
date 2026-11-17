@@ -9,7 +9,6 @@ import {
   User,
   Phone,
   Mail,
-  AlertCircle,
   CreditCard,
   QrCode,
   Banknote,
@@ -19,9 +18,14 @@ import {
   ArrowLeft,
   ShieldCheck,
   MessageCircle,
-  Lock,
 } from 'lucide-react';
-import { useClinic, formatCurrencyBRL, formatDateBR, minutesToTime, timeToMinutes } from '@/lib/store';
+import {
+  useClinic,
+  formatCurrencyBRL,
+  formatDateBR,
+  minutesToTime,
+  timeToMinutes,
+} from '@/lib/store';
 import {
   Appointment,
   CATEGORY_LABELS,
@@ -60,22 +64,18 @@ export default function BookingSection({
   const [selectedDate, setSelectedDate] = useState<string>(() => getOffsetDateISO(0));
   const [selectedTime, setSelectedTime] = useState<string>('');
 
-  // Step 3 Client Form
   const [clientName, setClientName] = useState('');
   const [clientWhatsapp, setClientWhatsapp] = useState('');
   const [clientEmail, setClientEmail] = useState('');
   const [notesAllergies, setNotesAllergies] = useState('');
 
-  // Step 4 Payment Selection
   const [paymentTiming, setPaymentTiming] = useState<PaymentTimingType>('online_advance');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodType>('pix');
   const [installments, setInstallments] = useState<number>(1);
   const [pixCopied, setPixCopied] = useState(false);
 
-  // Completed Booking State
   const [confirmedBooking, setConfirmedBooking] = useState<Appointment | null>(null);
 
-  // Sync preselected procedure from catalog click
   useEffect(() => {
     if (preselectedProcedureIds.length > 0) {
       setSelectedIds(preselectedProcedureIds);
@@ -85,7 +85,6 @@ export default function BookingSection({
     }
   }, [preselectedProcedureIds, onClearPreselected]);
 
-  // Ensure selected payment method is valid when admin toggles settings
   useEffect(() => {
     const ps = db.settings.paymentSettings;
     if (paymentMethod === 'pix' && !ps.pixEnabled) {
@@ -122,11 +121,23 @@ export default function BookingSection({
     return activeProcedures.filter((p) => p.category === categoryFilter);
   }, [activeProcedures, categoryFilter]);
 
-  // Generate next 7 days for quick picker
   const upcomingDays = useMemo(() => {
     const days = [];
     const weekdayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const monthNames = [
+      'Jan',
+      'Fev',
+      'Mar',
+      'Abr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Set',
+      'Out',
+      'Nov',
+      'Dez',
+    ];
     for (let i = 0; i < 8; i++) {
       const iso = getOffsetDateISO(i);
       const [y, m, d] = iso.split('-').map(Number);
@@ -137,13 +148,11 @@ export default function BookingSection({
         dayName: i === 0 ? 'Hoje' : i === 1 ? 'Amanhã' : weekdayNames[dayOfWeek],
         dayNumber: String(d).padStart(2, '0'),
         monthName: monthNames[m - 1],
-        isSundayOrMonday: dayOfWeek === 0, // Domingo fechado por padrão
       });
     }
     return days;
   }, []);
 
-  // Generate time slots between workStartHour and workEndHour
   const timeSlots = useMemo(() => {
     const startMin = timeToMinutes(db.settings.workStartHour || '09:00');
     const endMin = timeToMinutes(db.settings.workEndHour || '19:00');
@@ -186,14 +195,14 @@ export default function BookingSection({
   const handleCopyPix = () => {
     navigator.clipboard.writeText(pixCopyPasteCode).catch(() => {});
     setPixCopied(true);
-    showToast('Código Pix copiado!', 'Cole no aplicativo do seu banco para concluir o pagamento.');
+    showToast('Código Pix copiado', 'Cole no aplicativo do seu banco para finalizar.');
     setTimeout(() => setPixCopied(false), 3000);
   };
 
   const handleFinalizeBooking = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedProcedures.length === 0) {
-      showToast('Selecione ao menos 1 procedimento', undefined, 'error');
+      showToast('Selecione ao menos um protocolo', undefined, 'error');
       setStep(1);
       return;
     }
@@ -203,7 +212,7 @@ export default function BookingSection({
       return;
     }
     if (!clientName.trim() || !clientWhatsapp.trim() || !clientEmail.trim()) {
-      showToast('Preencha seus dados de contato no Passo 3', undefined, 'error');
+      showToast('Preencha seus dados pessoais no Passo III', undefined, 'error');
       setStep(3);
       return;
     }
@@ -231,7 +240,7 @@ export default function BookingSection({
 
     setConfirmedBooking(created);
     showToast(
-      'Agendamento realizado com sucesso!',
+      'Reserva confirmada com sucesso',
       `Seu horário em ${formatDateBR(selectedDate)} às ${selectedTime} foi reservado.`
     );
   };
@@ -248,110 +257,115 @@ export default function BookingSection({
   return (
     <section
       id="agendamento"
-      className="py-20 sm:py-24 bg-[#F4F1EA] border-y border-[#E6DFD3] scroll-mt-20"
+      className="py-28 sm:py-36 bg-[#F4F1EA]/70 border-t border-[#E6DFD2] scroll-mt-20"
     >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-[#6E7F6A] font-semibold mb-3">
-            <Calendar className="w-3.5 h-3.5 text-[#D4AF37]" />
-            Reserva Online Exclusiva
-          </span>
-          <h2 className="font-serif-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2D2D2D] font-medium leading-tight">
-            Agende seu momento de autocuidado
+      <div className="max-w-5xl mx-auto px-4 sm:px-8">
+        {/* Editorial Section Heading */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="text-[11px] uppercase tracking-[0.32em] text-[#8A9A86] font-medium mb-4">
+            Concierge & Reserva Online
+          </p>
+          <h2 className="font-serif-editorial text-4xl sm:text-5xl lg:text-[54px] text-[#2D2D2D] font-light leading-[1.1]">
+            Reserve o seu momento de <span className="italic text-[#C8A29E]">pausa</span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#68645E] leading-relaxed">
-            Atendimento 100% individualizado e com hora marcada por Larissa Soares. Escolha seus
-            procedimentos e garanta seu horário em poucos cliques.
+          <div className="w-12 h-[1px] bg-[#D4AF37]/60 mx-auto my-6" />
+          <p className="text-sm text-[#68645E] font-light leading-relaxed">
+            Agenda sincronizada em tempo real com a disponibilidade exclusiva de Larissa Soares.
           </p>
         </div>
 
-        {/* Confirmed Receipt View */}
         {confirmedBooking ? (
-          <div className="bg-[#FAF9F6] rounded-3xl border border-[#D4AF37]/40 p-6 sm:p-10 shadow-lg max-w-2xl mx-auto">
+          <div className="bg-[#FAF9F6] border border-[#D4AF37]/40 p-8 sm:p-14 shadow-[0_24px_60px_-15px_rgba(45,45,45,0.06)] max-w-2xl mx-auto">
             <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-[#EBF0E9] border border-[#8A9A86]/30 flex items-center justify-center mb-5">
-                <CheckCircle2 className="w-8 h-8 text-[#6E7F6A]" />
+              <div className="w-14 h-14 rounded-full border border-[#8A9A86]/40 bg-[#EBF0E9]/60 flex items-center justify-center mb-6">
+                <CheckCircle2 className="w-6 h-6 text-[#6E7F6A] stroke-[1.5]" />
               </div>
-              <span className="text-xs uppercase tracking-[0.2em] text-[#6E7F6A] font-semibold">
-                Reserva Registrada • Protocolo #{confirmedBooking.id.toUpperCase()}
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#6E7F6A] font-medium">
+                Reserva Confirmada • Protocolo #{confirmedBooking.id.toUpperCase()}
               </span>
-              <h3 className="font-serif-editorial text-3xl text-[#2D2D2D] mt-1">
-                Obrigada, {confirmedBooking.clientName.split(' ')[0]}!
+              <h3 className="font-serif-editorial text-3xl sm:text-4xl text-[#2D2D2D] font-light mt-2">
+                Será um prazer recebê-la, {confirmedBooking.clientName.split(' ')[0]}
               </h3>
-              <p className="text-sm text-[#68645E] mt-2 max-w-md">
-                Seu horário foi reservado na agenda da Larissa Soares e seus dados já foram
-                cadastrados com segurança.
+              <p className="text-xs sm:text-sm text-[#68645E] mt-2 max-w-md font-light">
+                Seu horário já está bloqueado exclusivamente para você na agenda da Larissa Soares.
               </p>
             </div>
 
-            <div className="mt-8 bg-[#F4F1EA] rounded-2xl p-5 sm:p-6 border border-[#E5DEC9] space-y-3 text-sm">
-              <div className="flex justify-between items-start gap-4 pb-3 border-b border-[#E5DEC9]">
-                <span className="text-[#68645E]">Procedimento(s):</span>
-                <span className="font-semibold text-[#2D2D2D] text-right">
+            <div className="mt-10 border-y border-[#E5DEC9] py-6 space-y-4 text-sm">
+              <div className="flex justify-between items-start gap-4">
+                <span className="text-xs uppercase tracking-[0.18em] text-[#8E8880]">
+                  Protocolo(s)
+                </span>
+                <span className="font-medium text-[#2D2D2D] text-right">
                   {confirmedBooking.procedureNames.join(' + ')}
                 </span>
               </div>
-              <div className="flex justify-between items-center pb-3 border-b border-[#E5DEC9]">
-                <span className="text-[#68645E]">Data e Horário:</span>
-                <span className="font-semibold text-[#2D2D2D]">
-                  {formatDateBR(confirmedBooking.date)} das {confirmedBooking.startTime} às{' '}
-                  {confirmedBooking.endTime} ({confirmedBooking.totalDurationMinutes} min)
+              <div className="flex justify-between items-center">
+                <span className="text-xs uppercase tracking-[0.18em] text-[#8E8880]">
+                  Data & Horário
+                </span>
+                <span className="font-medium text-[#2D2D2D]">
+                  {formatDateBR(confirmedBooking.date)} • {confirmedBooking.startTime} às{' '}
+                  {confirmedBooking.endTime}
                 </span>
               </div>
-              <div className="flex justify-between items-center pb-3 border-b border-[#E5DEC9]">
-                <span className="text-[#68645E]">Modalidade de Pagamento:</span>
-                <span className="font-medium text-[#2D2D2D]">
+              <div className="flex justify-between items-center">
+                <span className="text-xs uppercase tracking-[0.18em] text-[#8E8880]">
+                  Modalidade
+                </span>
+                <span className="text-[#68645E]">
                   {confirmedBooking.paymentTiming === 'online_advance'
-                    ? 'Pagamento Online Antecipado (Confirmado)'
+                    ? 'Pagamento Antecipado'
                     : 'Pagamento Presencial no Atendimento'}
                 </span>
               </div>
-              <div className="flex justify-between items-center pt-1">
-                <span className="text-[#2D2D2D] font-semibold">Valor Total:</span>
-                <span className="text-lg font-bold text-[#6E7F6A]">
+              <div className="flex justify-between items-baseline pt-4 border-t border-[#EFECE4]">
+                <span className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-medium">
+                  Investimento Total
+                </span>
+                <span className="font-serif-editorial text-3xl text-[#6E7F6A]">
                   {formatCurrencyBRL(confirmedBooking.totalAmount)}
                 </span>
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href={`https://wa.me/${db.settings.whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(
-                  `Olá Larissa! Acabei de realizar meu agendamento pelo site:\n\n✨ *Procedimento:* ${confirmedBooking.procedureNames.join(
+                  `Olá Larissa! Acabei de realizar meu agendamento pelo site:\n\nProcedimento: ${confirmedBooking.procedureNames.join(
                     ' + '
-                  )}\n📅 *Data:* ${formatDateBR(confirmedBooking.date)} às ${
+                  )}\nData: ${formatDateBR(confirmedBooking.date)} às ${
                     confirmedBooking.startTime
-                  }\n💳 *Valor:* ${formatCurrencyBRL(confirmedBooking.totalAmount)}\n👤 *Cliente:* ${
+                  }\nValor: ${formatCurrencyBRL(confirmedBooking.totalAmount)}\nCliente: ${
                     confirmedBooking.clientName
                   }`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#6E7F6A] hover:bg-[#5B6B57] text-white px-6 py-3.5 text-sm font-semibold transition-all shadow-sm"
+                className="inline-flex items-center justify-center gap-2.5 bg-[#2D2D2D] hover:bg-[#8A9A86] text-[#FAF9F6] px-8 py-4 text-xs uppercase tracking-[0.2em] font-medium transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
-                Enviar Comprovante no WhatsApp da Larissa
+                <MessageCircle className="w-4 h-4 stroke-[1.5]" />
+                Enviar Confirmação no WhatsApp
               </a>
               <button
                 type="button"
                 onClick={resetBookingFlow}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D5CFC4] bg-white hover:bg-[#F4F1EA] text-[#2D2D2D] px-6 py-3.5 text-sm font-medium transition-all"
+                className="inline-flex items-center justify-center border border-[#D5CFC4] hover:border-[#2D2D2D] text-[#2D2D2D] px-7 py-4 text-xs uppercase tracking-[0.2em] transition-colors"
               >
-                Fazer Novo Agendamento
+                Nova Reserva
               </button>
             </div>
           </div>
         ) : (
-          <div className="bg-[#FAF9F6] rounded-3xl border border-[#E5DEC9] shadow-sm overflow-hidden">
-            {/* 4-Step Progress Bar */}
-            <div className="bg-[#EFECE4] border-b border-[#E5DEC9] px-4 sm:px-8 py-4">
-              <div className="grid grid-cols-4 gap-2">
+          <div className="bg-[#FAF9F6] border border-[#E5DEC9] shadow-[0_24px_60px_-15px_rgba(45,45,45,0.05)]">
+            {/* Editorial Step Header with Roman Numerals */}
+            <div className="border-b border-[#E5DEC9] px-6 sm:px-10 py-6">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {[
-                  { num: 1, label: '1. Procedimentos' },
-                  { num: 2, label: '2. Data & Horário' },
-                  { num: 3, label: '3. Seus Dados' },
-                  { num: 4, label: '4. Pagamento' },
+                  { num: 1, roman: 'I', label: 'Protocolos' },
+                  { num: 2, roman: 'II', label: 'Data & Horário' },
+                  { num: 3, roman: 'III', label: 'Identificação' },
+                  { num: 4, roman: 'IV', label: 'Pagamento' },
                 ].map((item) => {
                   const isActive = step === item.num;
                   const isDone = step > item.num;
@@ -373,51 +387,45 @@ export default function BookingSection({
                         )
                           setStep(4);
                       }}
-                      className={`flex items-center justify-center sm:justify-start gap-2.5 py-2 px-3 rounded-xl text-left transition-all ${
+                      className={`text-left pb-3 border-b-2 transition-all ${
                         isActive
-                          ? 'bg-[#FAF9F6] text-[#2D2D2D] shadow-xs border border-[#D4AF37]/50 font-semibold'
+                          ? 'border-[#8A9A86] text-[#2D2D2D]'
                           : isDone
-                          ? 'text-[#6E7F6A] font-medium hover:bg-[#FAF9F6]/60'
-                          : 'text-[#8E8880]'
+                          ? 'border-[#D4AF37]/50 text-[#6E7F6A]'
+                          : 'border-transparent text-[#A59F96]'
                       }`}
                     >
-                      <span
-                        className={`w-6 h-6 rounded-full text-xs flex items-center justify-center shrink-0 ${
-                          isActive
-                            ? 'bg-[#8A9A86] text-white'
-                            : isDone
-                            ? 'bg-[#EBF0E9] text-[#6E7F6A] border border-[#8A9A86]/40'
-                            : 'bg-[#E5DEC9] text-[#68645E]'
-                        }`}
-                      >
-                        {isDone ? <Check className="w-3.5 h-3.5" /> : item.num}
+                      <span className="font-serif-editorial italic text-sm block">
+                        Passo {item.roman}
                       </span>
-                      <span className="text-xs sm:text-sm truncate">{item.label}</span>
+                      <span className="text-xs uppercase tracking-[0.18em] font-medium mt-0.5 block">
+                        {item.label}
+                      </span>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            <form onSubmit={handleFinalizeBooking} className="p-6 sm:p-8 lg:p-10">
-              {/* STEP 1: SELECT PROCEDURES */}
+            <form onSubmit={handleFinalizeBooking} className="p-6 sm:p-10 lg:p-12">
+              {/* STEP 1 */}
               {step === 1 && (
-                <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-8">
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                     <div>
-                      <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">
-                        Passo 1: Selecione o(s) procedimento(s)
+                      <span className="text-[10px] uppercase tracking-[0.26em] text-[#8A9A86] block mb-1">
+                        Passo I • Seleção
+                      </span>
+                      <h3 className="font-serif-editorial text-3xl text-[#2D2D2D] font-light">
+                        Escolha seu(s) protocolo(s)
                       </h3>
-                      <p className="text-xs sm:text-sm text-[#68645E]">
-                        Você pode selecionar um único protocolo ou combinar mais de um atendimento.
-                      </p>
                     </div>
-                    {/* Specialty filter pills */}
-                    <div className="flex flex-wrap gap-1.5">
+
+                    <div className="flex flex-wrap gap-4 border-b border-[#E5DEC9] pb-2">
                       {(
                         [
                           { id: 'all', label: 'Todos' },
-                          { id: 'estetica', label: 'Estética & Cosmetologia' },
+                          { id: 'estetica', label: 'Estética' },
                           { id: 'massoterapia', label: 'Massoterapia' },
                           { id: 'lash', label: 'Lash Design' },
                         ] as const
@@ -426,10 +434,10 @@ export default function BookingSection({
                           key={tab.id}
                           type="button"
                           onClick={() => setCategoryFilter(tab.id)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                          className={`text-xs uppercase tracking-[0.18em] pb-1 transition-all ${
                             categoryFilter === tab.id
-                              ? 'bg-[#8A9A86] text-white'
-                              : 'bg-[#F4F1EA] text-[#68645E] hover:bg-[#E5DEC9]'
+                              ? 'text-[#2D2D2D] font-semibold border-b border-[#D4AF37]'
+                              : 'text-[#8E8880] hover:text-[#2D2D2D]'
                           }`}
                         >
                           {tab.label}
@@ -438,7 +446,7 @@ export default function BookingSection({
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  <div className="divide-y divide-[#EBE5D8] border-y border-[#EBE5D8]">
                     {filteredProcedures.map((proc) => {
                       const isSelected = selectedIds.includes(proc.id);
                       const hasPromo = isPromoValid(proc);
@@ -448,50 +456,55 @@ export default function BookingSection({
                         <div
                           key={proc.id}
                           onClick={() => toggleProcedureSelection(proc.id)}
-                          className={`cursor-pointer rounded-2xl border p-4 transition-all flex items-start gap-3.5 ${
-                            isSelected
-                              ? 'border-[#8A9A86] bg-[#EBF0E9]/50 shadow-xs'
-                              : 'border-[#E5DEC9] bg-white hover:border-[#C8A29E]/60'
+                          className={`cursor-pointer py-5 px-4 transition-all flex items-center justify-between gap-4 ${
+                            isSelected ? 'bg-[#EBF0E9]/45' : 'hover:bg-[#F4F1EA]/60'
                           }`}
                         >
-                          <div
-                            className={`w-5 h-5 rounded-md mt-0.5 flex items-center justify-center border shrink-0 transition-colors ${
-                              isSelected
-                                ? 'bg-[#8A9A86] border-[#8A9A86] text-white'
-                                : 'border-[#C5BEB2] bg-[#FAF9F6]'
-                            }`}
-                          >
-                            {isSelected && <Check className="w-3.5 h-3.5" />}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-[11px] uppercase tracking-wider text-[#6E7F6A] font-semibold">
-                                {CATEGORY_LABELS[proc.category]}
-                              </span>
-                              {hasPromo && (
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[#C8A29E]/20 text-[#9B6B66] border border-[#C8A29E]/40 px-2 py-0.5 text-[10px] font-semibold">
-                                  <Sparkles className="w-2.5 h-2.5" /> Promoção
+                          <div className="flex items-center gap-4 min-w-0">
+                            <img
+                              src={proc.imageUrl}
+                              alt={proc.name}
+                              className="w-16 h-16 object-cover rounded-full border border-[#D4AF37]/30 shrink-0 hidden sm:block"
+                            />
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2.5 flex-wrap">
+                                <span className="text-[10px] uppercase tracking-[0.22em] text-[#8A9A86] font-medium">
+                                  {CATEGORY_LABELS[proc.category]}
                                 </span>
-                              )}
-                            </div>
-                            <h4 className="font-semibold text-[#2D2D2D] text-sm mt-0.5">
-                              {proc.name}
-                            </h4>
-                            <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#F0ECE1]">
-                              <span className="inline-flex items-center gap-1 text-xs text-[#68645E]">
-                                <Clock className="w-3.5 h-3.5 text-[#8A9A86]" />
-                                {proc.durationMinutes} min
-                              </span>
-                              <div className="text-right">
                                 {hasPromo && (
-                                  <span className="text-xs text-[#9E9890] line-through mr-1.5">
-                                    {formatCurrencyBRL(proc.originalPrice)}
+                                  <span className="text-[10px] uppercase tracking-[0.16em] bg-[#C8A29E]/20 text-[#9B6B66] px-2 py-0.5">
+                                    Condição Especial
                                   </span>
                                 )}
-                                <span className="text-sm font-bold text-[#2D2D2D]">
-                                  {formatCurrencyBRL(finalPrice)}
-                                </span>
                               </div>
+                              <h4 className="font-serif-editorial text-xl text-[#2D2D2D] mt-0.5">
+                                {proc.name}
+                              </h4>
+                              <span className="text-xs text-[#8E8880] font-light">
+                                Duração aproximada: {proc.durationMinutes} minutos
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-5 shrink-0">
+                            <div className="text-right">
+                              {hasPromo && (
+                                <span className="text-xs text-[#A59F96] line-through block">
+                                  {formatCurrencyBRL(proc.originalPrice)}
+                                </span>
+                              )}
+                              <span className="font-serif-editorial text-2xl text-[#2D2D2D]">
+                                {formatCurrencyBRL(finalPrice)}
+                              </span>
+                            </div>
+                            <div
+                              className={`w-6 h-6 rounded-full border flex items-center justify-center transition-all ${
+                                isSelected
+                                  ? 'bg-[#8A9A86] border-[#8A9A86] text-white'
+                                  : 'border-[#C5BEB2]'
+                              }`}
+                            >
+                              {isSelected && <Check className="w-3.5 h-3.5 stroke-[2]" />}
                             </div>
                           </div>
                         </div>
@@ -499,21 +512,18 @@ export default function BookingSection({
                     })}
                   </div>
 
-                  {/* Step 1 Footer Summary */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#E5DEC9]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                     <div>
                       {selectedProcedures.length > 0 ? (
-                        <p className="text-sm text-[#2D2D2D]">
-                          <span className="font-semibold">{selectedProcedures.length}</span>{' '}
-                          procedimento(s) selecionado(s) • Duração total:{' '}
-                          <span className="font-semibold">{totalDuration} min</span> • Total:{' '}
-                          <span className="font-bold text-[#6E7F6A]">
+                        <p className="text-xs uppercase tracking-[0.16em] text-[#68645E]">
+                          {selectedProcedures.length} protocolo(s) • {totalDuration} min • Total:{' '}
+                          <strong className="text-[#2D2D2D] font-semibold">
                             {formatCurrencyBRL(totalAmount)}
-                          </span>
+                          </strong>
                         </p>
                       ) : (
-                        <p className="text-sm text-[#8E8880]">
-                          Clique em um ou mais procedimentos acima para continuar.
+                        <p className="text-xs text-[#8E8880] italic font-serif-editorial text-base">
+                          Selecione um ou mais protocolos na lista acima para prosseguir.
                         </p>
                       )}
                     </div>
@@ -521,31 +531,33 @@ export default function BookingSection({
                       type="button"
                       disabled={selectedProcedures.length === 0}
                       onClick={() => setStep(2)}
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8A9A86] hover:bg-[#6E7F6A] disabled:opacity-45 disabled:pointer-events-none text-white px-7 py-3 text-sm font-semibold transition-all"
+                      className="inline-flex items-center justify-center gap-3 bg-[#2D2D2D] hover:bg-[#8A9A86] disabled:opacity-35 disabled:pointer-events-none text-[#FAF9F6] px-8 py-4 text-xs uppercase tracking-[0.22em] transition-colors"
                     >
-                      Escolher Data e Horário
-                      <ArrowRight className="w-4 h-4" />
+                      Escolher Data & Horário
+                      <ArrowRight className="w-4 h-4 stroke-[1.5]" />
                     </button>
                   </div>
                 </div>
               )}
 
-              {/* STEP 2: CHOOSE DATE & TIME */}
+              {/* STEP 2 */}
               {step === 2 && (
-                <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="space-y-8">
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                     <div>
-                      <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">
-                        Passo 2: Escolha a data e o horário disponível
+                      <span className="text-[10px] uppercase tracking-[0.26em] text-[#8A9A86] block mb-1">
+                        Passo II • Disponibilidade
+                      </span>
+                      <h3 className="font-serif-editorial text-3xl text-[#2D2D2D] font-light">
+                        Selecione a data e o horário
                       </h3>
-                      <p className="text-xs sm:text-sm text-[#68645E]">
-                        Horários já reservados ou bloqueados pela Larissa são desabilitados
-                        automaticamente.
-                      </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <label htmlFor="booking-custom-date" className="text-xs text-[#68645E]">
-                        Outra data:
+                    <div className="flex items-center gap-3">
+                      <label
+                        htmlFor="booking-custom-date"
+                        className="text-[11px] uppercase tracking-[0.18em] text-[#68645E]"
+                      >
+                        Calendário:
                       </label>
                       <input
                         id="booking-custom-date"
@@ -556,13 +568,13 @@ export default function BookingSection({
                           setSelectedDate(e.target.value);
                           setSelectedTime('');
                         }}
-                        className="rounded-xl border border-[#D5CFC4] bg-white px-3 py-1.5 text-xs text-[#2D2D2D] focus:outline-none focus:border-[#8A9A86]"
+                        className="border-b border-[#2D2D2D] bg-transparent px-2 py-1 text-xs text-[#2D2D2D] focus:outline-none"
                       />
                     </div>
                   </div>
 
-                  {/* Quick 8-day horizontal calendar */}
-                  <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                  {/* Editorial Date Strip */}
+                  <div className="grid grid-cols-4 sm:grid-cols-8 gap-2.5">
                     {upcomingDays.map((day) => {
                       const isSelected = selectedDate === day.iso;
                       return (
@@ -573,25 +585,23 @@ export default function BookingSection({
                             setSelectedDate(day.iso);
                             setSelectedTime('');
                           }}
-                          className={`rounded-2xl border p-2.5 text-center transition-all ${
+                          className={`py-4 px-2 border text-center transition-all ${
                             isSelected
-                              ? 'bg-[#8A9A86] border-[#8A9A86] text-white shadow-xs'
-                              : 'bg-white border-[#E5DEC9] text-[#2D2D2D] hover:border-[#C8A29E]'
+                              ? 'bg-[#2D2D2D] border-[#2D2D2D] text-[#FAF9F6]'
+                              : 'bg-white border-[#E5DEC9] text-[#2D2D2D] hover:border-[#8A9A86]'
                           }`}
                         >
                           <span
-                            className={`block text-[11px] font-medium ${
-                              isSelected ? 'text-white/90' : 'text-[#68645E]'
+                            className={`block text-[10px] uppercase tracking-[0.16em] ${
+                              isSelected ? 'text-[#D4AF37]' : 'text-[#8E8880]'
                             }`}
                           >
                             {day.dayName}
                           </span>
-                          <span className="block text-lg font-bold mt-0.5">{day.dayNumber}</span>
-                          <span
-                            className={`block text-[10px] uppercase ${
-                              isSelected ? 'text-white/80' : 'text-[#8E8880]'
-                            }`}
-                          >
+                          <span className="font-serif-editorial text-2xl block mt-1">
+                            {day.dayNumber}
+                          </span>
+                          <span className="block text-[10px] uppercase tracking-[0.16em] opacity-70">
                             {day.monthName}
                           </span>
                         </button>
@@ -599,25 +609,18 @@ export default function BookingSection({
                     })}
                   </div>
 
-                  {/* Available Slots Grid */}
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-[#68645E]">
-                        Horários para {formatDateBR(selectedDate)} (Duração necessária:{' '}
-                        {totalDuration} min)
+                  {/* Slots Grid */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#E5DEC9] pb-2">
+                      <span className="text-[11px] uppercase tracking-[0.2em] text-[#68645E]">
+                        Horários em {formatDateBR(selectedDate)}
                       </span>
-                      <div className="flex items-center gap-3 text-xs text-[#68645E]">
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#8A9A86]" /> Livre
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#E5DEC9]" /> Ocupado /
-                          Bloqueado
-                        </span>
-                      </div>
+                      <span className="text-[11px] text-[#8E8880]">
+                        Duração reservada: {totalDuration} min
+                      </span>
                     </div>
 
-                    <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 gap-2.5">
+                    <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 gap-3">
                       {timeSlots.map((slot) => {
                         const isPicked = selectedTime === slot.time;
                         return (
@@ -626,201 +629,176 @@ export default function BookingSection({
                             type="button"
                             disabled={!slot.available}
                             onClick={() => setSelectedTime(slot.time)}
-                            title={slot.reason || 'Horário disponível'}
-                            className={`rounded-xl border py-2.5 px-3 text-center transition-all ${
+                            title={slot.reason || 'Disponível'}
+                            className={`py-3 px-3 border text-center transition-all ${
                               !slot.available
-                                ? 'border-[#EBE6DC] bg-[#F4F1EA] text-[#B5AFA6] line-through cursor-not-allowed'
+                                ? 'border-[#EFECE4] bg-[#F4F1EA]/60 text-[#C2BCB2] line-through cursor-not-allowed'
                                 : isPicked
-                                ? 'border-[#8A9A86] bg-[#8A9A86] text-white font-semibold shadow-xs'
-                                : 'border-[#E5DEC9] bg-white text-[#2D2D2D] hover:border-[#8A9A86] hover:bg-[#EBF0E9]/40 font-medium'
+                                ? 'border-[#8A9A86] bg-[#8A9A86] text-white font-medium'
+                                : 'border-[#E5DEC9] bg-white text-[#2D2D2D] hover:border-[#2D2D2D]'
                             }`}
                           >
-                            <span className="text-sm block">{slot.time}</span>
-                            {!slot.available && (
-                              <span className="text-[10px] block no-underline truncate">
-                                Indisponível
-                              </span>
-                            )}
+                            <span className="text-xs tracking-[0.14em] block">{slot.time}</span>
                           </button>
                         );
                       })}
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-[#E5DEC9]">
+                  <div className="flex items-center justify-between pt-6 border-t border-[#E5DEC9]">
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="inline-flex items-center gap-2 text-sm text-[#68645E] hover:text-[#2D2D2D] font-medium"
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[#68645E] hover:text-[#2D2D2D]"
                     >
-                      <ArrowLeft className="w-4 h-4" /> Voltar aos Procedimentos
+                      <ArrowLeft className="w-3.5 h-3.5" /> Voltar
                     </button>
                     <button
                       type="button"
                       disabled={!selectedTime}
                       onClick={() => setStep(3)}
-                      className="inline-flex items-center gap-2 rounded-full bg-[#8A9A86] hover:bg-[#6E7F6A] disabled:opacity-45 disabled:pointer-events-none text-white px-7 py-3 text-sm font-semibold transition-all"
+                      className="inline-flex items-center gap-3 bg-[#2D2D2D] hover:bg-[#8A9A86] disabled:opacity-35 disabled:pointer-events-none text-[#FAF9F6] px-8 py-4 text-xs uppercase tracking-[0.22em] transition-colors"
                     >
-                      Preencher Meus Dados
-                      <ArrowRight className="w-4 h-4" />
+                      Prosseguir
+                      <ArrowRight className="w-4 h-4 stroke-[1.5]" />
                     </button>
                   </div>
                 </div>
               )}
 
-              {/* STEP 3: CLIENT PERSONAL INFO */}
+              {/* STEP 3 */}
               {step === 3 && (
-                <div className="space-y-6">
+                <div className="space-y-8">
                   <div>
-                    <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">
-                      Passo 3: Seus dados para atendimento personalizado
+                    <span className="text-[10px] uppercase tracking-[0.26em] text-[#8A9A86] block mb-1">
+                      Passo III • Ficha de Recepção
+                    </span>
+                    <h3 className="font-serif-editorial text-3xl text-[#2D2D2D] font-light">
+                      Seus dados para atendimento individualizado
                     </h3>
-                    <p className="text-xs sm:text-sm text-[#68645E]">
-                      Suas informações são confidenciais e ajudam a Larissa a preparar a cabine
-                      exclusivamente para você.
-                    </p>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <label
                         htmlFor="client-full-name"
-                        className="block text-xs font-semibold uppercase tracking-wider text-[#68645E] mb-1.5"
+                        className="block text-[10px] uppercase tracking-[0.22em] text-[#68645E] mb-2"
                       >
                         Nome Completo *
                       </label>
-                      <div className="relative">
-                        <User className="w-4 h-4 text-[#8A9A86] absolute left-3.5 top-3.5" />
-                        <input
-                          id="client-full-name"
-                          type="text"
-                          required
-                          placeholder="Ex: Mariana Soares"
-                          value={clientName}
-                          onChange={(e) => setClientName(e.target.value)}
-                          className="w-full rounded-xl border border-[#D5CFC4] bg-white pl-10 pr-4 py-3 text-sm text-[#2D2D2D] focus:outline-none focus:border-[#8A9A86]"
-                        />
-                      </div>
+                      <input
+                        id="client-full-name"
+                        type="text"
+                        required
+                        placeholder="Como prefere ser chamada"
+                        value={clientName}
+                        onChange={(e) => setClientName(e.target.value)}
+                        className="w-full border-b border-[#C5BEB2] focus:border-[#2D2D2D] bg-transparent py-3 text-sm text-[#2D2D2D] focus:outline-none transition-colors"
+                      />
                     </div>
 
                     <div>
                       <label
                         htmlFor="client-whatsapp"
-                        className="block text-xs font-semibold uppercase tracking-wider text-[#68645E] mb-1.5"
+                        className="block text-[10px] uppercase tracking-[0.22em] text-[#68645E] mb-2"
                       >
                         WhatsApp (com DDD) *
                       </label>
-                      <div className="relative">
-                        <Phone className="w-4 h-4 text-[#8A9A86] absolute left-3.5 top-3.5" />
-                        <input
-                          id="client-whatsapp"
-                          type="tel"
-                          required
-                          placeholder="Ex: (11) 99876-5432"
-                          value={clientWhatsapp}
-                          onChange={(e) => setClientWhatsapp(e.target.value)}
-                          className="w-full rounded-xl border border-[#D5CFC4] bg-white pl-10 pr-4 py-3 text-sm text-[#2D2D2D] focus:outline-none focus:border-[#8A9A86]"
-                        />
-                      </div>
+                      <input
+                        id="client-whatsapp"
+                        type="tel"
+                        required
+                        placeholder="(11) 99876-5432"
+                        value={clientWhatsapp}
+                        onChange={(e) => setClientWhatsapp(e.target.value)}
+                        className="w-full border-b border-[#C5BEB2] focus:border-[#2D2D2D] bg-transparent py-3 text-sm text-[#2D2D2D] focus:outline-none transition-colors"
+                      />
                     </div>
 
                     <div className="sm:col-span-2">
                       <label
                         htmlFor="client-email"
-                        className="block text-xs font-semibold uppercase tracking-wider text-[#68645E] mb-1.5"
+                        className="block text-[10px] uppercase tracking-[0.22em] text-[#68645E] mb-2"
                       >
-                        E-mail (para confirmação e lembretes) *
+                        E-mail *
                       </label>
-                      <div className="relative">
-                        <Mail className="w-4 h-4 text-[#8A9A86] absolute left-3.5 top-3.5" />
-                        <input
-                          id="client-email"
-                          type="email"
-                          required
-                          placeholder="seuemail@exemplo.com"
-                          value={clientEmail}
-                          onChange={(e) => setClientEmail(e.target.value)}
-                          className="w-full rounded-xl border border-[#D5CFC4] bg-white pl-10 pr-4 py-3 text-sm text-[#2D2D2D] focus:outline-none focus:border-[#8A9A86]"
-                        />
-                      </div>
+                      <input
+                        id="client-email"
+                        type="email"
+                        required
+                        placeholder="seuemail@exemplo.com"
+                        value={clientEmail}
+                        onChange={(e) => setClientEmail(e.target.value)}
+                        className="w-full border-b border-[#C5BEB2] focus:border-[#2D2D2D] bg-transparent py-3 text-sm text-[#2D2D2D] focus:outline-none transition-colors"
+                      />
                     </div>
 
                     <div className="sm:col-span-2">
                       <label
                         htmlFor="client-notes"
-                        className="block text-xs font-semibold uppercase tracking-wider text-[#68645E] mb-1.5"
+                        className="block text-[10px] uppercase tracking-[0.22em] text-[#68645E] mb-2"
                       >
-                        Observações, Alergias ou Sensibilidades (Opcional)
+                        Observações, Gestação, Lentes ou Sensibilidades (Opcional)
                       </label>
                       <textarea
                         id="client-notes"
-                        rows={3}
-                        placeholder="Informe caso seja gestante, use lentes de contato, ácidos faciais ou possua alergia a algum componente cosmético..."
+                        rows={2}
+                        placeholder="Alguma observação importante para a Larissa preparar sua cabine?"
                         value={notesAllergies}
                         onChange={(e) => setNotesAllergies(e.target.value)}
-                        className="w-full rounded-xl border border-[#D5CFC4] bg-white p-3.5 text-sm text-[#2D2D2D] focus:outline-none focus:border-[#8A9A86]"
+                        className="w-full border-b border-[#C5BEB2] focus:border-[#2D2D2D] bg-transparent py-2 text-sm text-[#2D2D2D] focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-[#E5DEC9]">
+                  <div className="flex items-center justify-between pt-6 border-t border-[#E5DEC9]">
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="inline-flex items-center gap-2 text-sm text-[#68645E] hover:text-[#2D2D2D] font-medium"
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[#68645E] hover:text-[#2D2D2D]"
                     >
-                      <ArrowLeft className="w-4 h-4" /> Voltar para Data e Horário
+                      <ArrowLeft className="w-3.5 h-3.5" /> Voltar
                     </button>
                     <button
                       type="button"
                       disabled={!clientName.trim() || !clientWhatsapp.trim() || !clientEmail.trim()}
                       onClick={() => setStep(4)}
-                      className="inline-flex items-center gap-2 rounded-full bg-[#8A9A86] hover:bg-[#6E7F6A] disabled:opacity-45 disabled:pointer-events-none text-white px-7 py-3 text-sm font-semibold transition-all"
+                      className="inline-flex items-center gap-3 bg-[#2D2D2D] hover:bg-[#8A9A86] disabled:opacity-35 disabled:pointer-events-none text-[#FAF9F6] px-8 py-4 text-xs uppercase tracking-[0.22em] transition-colors"
                     >
-                      Escolher Forma de Pagamento
-                      <ArrowRight className="w-4 h-4" />
+                      Forma de Pagamento
+                      <ArrowRight className="w-4 h-4 stroke-[1.5]" />
                     </button>
                   </div>
                 </div>
               )}
 
-              {/* STEP 4: PAYMENT OPTIONS */}
+              {/* STEP 4 */}
               {step === 4 && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">
-                      Passo 4: Forma de Pagamento e Confirmação
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#68645E]">
-                      Escolha entre adiantar seu pagamento online (Pix ou Cartão) ou pagar
-                      presencialmente no dia do atendimento.
-                    </p>
-                  </div>
-
-                  {/* Summary Banner */}
-                  <div className="rounded-2xl bg-[#F4F1EA] border border-[#E5DEC9] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="space-y-8">
+                  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E5DEC9] pb-6">
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-[#6E7F6A] font-semibold">
-                        Resumo do Atendimento
-                      </p>
-                      <p className="text-sm font-semibold text-[#2D2D2D] mt-0.5">
-                        {selectedProcedures.map((p) => p.name).join(' + ')}
-                      </p>
-                      <p className="text-xs text-[#68645E] mt-0.5">
-                        📅 {formatDateBR(selectedDate)} às {selectedTime} ({totalDuration} min) • 👤{' '}
-                        {clientName}
+                      <span className="text-[10px] uppercase tracking-[0.26em] text-[#8A9A86] block mb-1">
+                        Passo IV • Finalização
+                      </span>
+                      <h3 className="font-serif-editorial text-3xl text-[#2D2D2D] font-light">
+                        Modalidade de Pagamento
+                      </h3>
+                      <p className="text-xs text-[#68645E] mt-1">
+                        {selectedProcedures.map((p) => p.name).join(' + ')} •{' '}
+                        {formatDateBR(selectedDate)} às {selectedTime}
                       </p>
                     </div>
                     <div className="sm:text-right">
-                      <span className="text-xs text-[#68645E] block">Total a pagar</span>
-                      <span className="text-2xl font-bold text-[#6E7F6A]">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[#8E8880] block">
+                        Total da Reserva
+                      </span>
+                      <span className="font-serif-editorial text-3xl text-[#2D2D2D]">
                         {formatCurrencyBRL(totalAmount)}
                       </span>
                     </div>
                   </div>
 
-                  {/* Payment Options Grid based on Admin Settings */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {ps.pixEnabled && (
                       <button
                         type="button"
@@ -828,26 +806,24 @@ export default function BookingSection({
                           setPaymentMethod('pix');
                           setPaymentTiming('online_advance');
                         }}
-                        className={`rounded-2xl border p-4 text-left transition-all flex items-start gap-3.5 ${
+                        className={`p-5 border text-left transition-all ${
                           paymentMethod === 'pix'
-                            ? 'border-[#8A9A86] bg-[#EBF0E9]/60 shadow-xs'
-                            : 'border-[#E5DEC9] bg-white hover:border-[#C8A29E]'
+                            ? 'border-[#2D2D2D] bg-[#F4F1EA]'
+                            : 'border-[#E5DEC9] bg-white hover:border-[#8A9A86]'
                         }`}
                       >
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF9F6] border border-[#E5DEC9] flex items-center justify-center shrink-0">
-                          <QrCode className="w-5 h-5 text-[#6E7F6A]" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-semibold uppercase tracking-wider text-[#6E7F6A]">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] uppercase tracking-[0.22em] text-[#6E7F6A] font-semibold">
                             Online Antecipado
                           </span>
-                          <h4 className="font-semibold text-sm text-[#2D2D2D]">
-                            Pix Instantâneo (QR Code / Copia e Cola)
-                          </h4>
-                          <p className="text-xs text-[#68645E] mt-0.5">
-                            Confirmação imediata do seu horário na agenda.
-                          </p>
+                          <QrCode className="w-4 h-4 text-[#6E7F6A] stroke-[1.5]" />
                         </div>
+                        <h4 className="font-serif-editorial text-xl text-[#2D2D2D]">
+                          Pix Instantâneo
+                        </h4>
+                        <p className="text-xs text-[#68645E] font-light mt-1">
+                          QR Code ou chave Copia e Cola para confirmação imediata.
+                        </p>
                       </button>
                     )}
 
@@ -858,26 +834,24 @@ export default function BookingSection({
                           setPaymentMethod('credit_card');
                           setPaymentTiming('online_advance');
                         }}
-                        className={`rounded-2xl border p-4 text-left transition-all flex items-start gap-3.5 ${
+                        className={`p-5 border text-left transition-all ${
                           paymentMethod === 'credit_card'
-                            ? 'border-[#8A9A86] bg-[#EBF0E9]/60 shadow-xs'
-                            : 'border-[#E5DEC9] bg-white hover:border-[#C8A29E]'
+                            ? 'border-[#2D2D2D] bg-[#F4F1EA]'
+                            : 'border-[#E5DEC9] bg-white hover:border-[#8A9A86]'
                         }`}
                       >
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF9F6] border border-[#E5DEC9] flex items-center justify-center shrink-0">
-                          <CreditCard className="w-5 h-5 text-[#C8A29E]" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-semibold uppercase tracking-wider text-[#A97E79]">
-                            Online ou Presencial
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] uppercase tracking-[0.22em] text-[#A97E79] font-semibold">
+                            Parcelamento Flexível
                           </span>
-                          <h4 className="font-semibold text-sm text-[#2D2D2D]">
-                            Cartão de Crédito (em até {ps.creditCardMaxInstallments}x)
-                          </h4>
-                          <p className="text-xs text-[#68645E] mt-0.5">
-                            Parcelamento flexível para seus protocolos.
-                          </p>
+                          <CreditCard className="w-4 h-4 text-[#A97E79] stroke-[1.5]" />
                         </div>
+                        <h4 className="font-serif-editorial text-xl text-[#2D2D2D]">
+                          Cartão de Crédito (até {ps.creditCardMaxInstallments}x)
+                        </h4>
+                        <p className="text-xs text-[#68645E] font-light mt-1">
+                          Pré-reserva online ou pagamento no espaço.
+                        </p>
                       </button>
                     )}
 
@@ -888,26 +862,24 @@ export default function BookingSection({
                           setPaymentMethod('debit_card');
                           setPaymentTiming('in_person');
                         }}
-                        className={`rounded-2xl border p-4 text-left transition-all flex items-start gap-3.5 ${
+                        className={`p-5 border text-left transition-all ${
                           paymentMethod === 'debit_card'
-                            ? 'border-[#8A9A86] bg-[#EBF0E9]/60 shadow-xs'
-                            : 'border-[#E5DEC9] bg-white hover:border-[#C8A29E]'
+                            ? 'border-[#2D2D2D] bg-[#F4F1EA]'
+                            : 'border-[#E5DEC9] bg-white hover:border-[#8A9A86]'
                         }`}
                       >
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF9F6] border border-[#E5DEC9] flex items-center justify-center shrink-0">
-                          <CreditCard className="w-5 h-5 text-[#68645E]" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-semibold uppercase tracking-wider text-[#68645E]">
-                            Presencial no Espaço
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] uppercase tracking-[0.22em] text-[#68645E]">
+                            No Atendimento
                           </span>
-                          <h4 className="font-semibold text-sm text-[#2D2D2D]">
-                            Cartão de Débito no Dia
-                          </h4>
-                          <p className="text-xs text-[#68645E] mt-0.5">
-                            Realize o pagamento na maquininha após o atendimento.
-                          </p>
+                          <CreditCard className="w-4 h-4 text-[#68645E] stroke-[1.5]" />
                         </div>
+                        <h4 className="font-serif-editorial text-xl text-[#2D2D2D]">
+                          Cartão de Débito
+                        </h4>
+                        <p className="text-xs text-[#68645E] font-light mt-1">
+                          Pagamento presencial no dia do protocolo.
+                        </p>
                       </button>
                     )}
 
@@ -918,151 +890,94 @@ export default function BookingSection({
                           setPaymentMethod('cash_in_person');
                           setPaymentTiming('in_person');
                         }}
-                        className={`rounded-2xl border p-4 text-left transition-all flex items-start gap-3.5 ${
+                        className={`p-5 border text-left transition-all ${
                           paymentMethod === 'cash_in_person'
-                            ? 'border-[#8A9A86] bg-[#EBF0E9]/60 shadow-xs'
-                            : 'border-[#E5DEC9] bg-white hover:border-[#C8A29E]'
+                            ? 'border-[#2D2D2D] bg-[#F4F1EA]'
+                            : 'border-[#E5DEC9] bg-white hover:border-[#8A9A86]'
                         }`}
                       >
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF9F6] border border-[#E5DEC9] flex items-center justify-center shrink-0">
-                          <Banknote className="w-5 h-5 text-[#D4AF37]" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-semibold uppercase tracking-wider text-[#68645E]">
-                            Presencial no Espaço
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] uppercase tracking-[0.22em] text-[#B38F22]">
+                            No Atendimento
                           </span>
-                          <h4 className="font-semibold text-sm text-[#2D2D2D]">
-                            Pagar Presencialmente na Hora (Dinheiro / Pix)
-                          </h4>
-                          <p className="text-xs text-[#68645E] mt-0.5">
-                            Pague diretamente à Larissa no dia do seu procedimento.
-                          </p>
+                          <Banknote className="w-4 h-4 text-[#D4AF37] stroke-[1.5]" />
                         </div>
+                        <h4 className="font-serif-editorial text-xl text-[#2D2D2D]">
+                          Pagamento Presencial
+                        </h4>
+                        <p className="text-xs text-[#68645E] font-light mt-1">
+                          Acerte diretamente com a Larissa no espaço.
+                        </p>
                       </button>
                     )}
                   </div>
 
-                  {/* Dynamic Pix Box */}
                   {paymentMethod === 'pix' && ps.pixEnabled && (
-                    <div className="rounded-2xl border border-[#8A9A86]/40 bg-white p-5 space-y-4">
-                      <div className="flex flex-col sm:flex-row items-center gap-5">
-                        {/* Stylized SVG QR Code representation */}
-                        <div className="w-32 h-32 rounded-xl border border-[#E5DEC9] bg-[#FAF9F6] p-3 flex flex-col items-center justify-center shrink-0">
-                          <QrCode className="w-20 h-20 text-[#2D2D2D]" />
-                          <span className="text-[10px] text-[#68645E] mt-1 font-medium">
-                            QR Code Pix Oficial
-                          </span>
-                        </div>
-                        <div className="flex-1 space-y-2 text-center sm:text-left">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-[#6E7F6A]">
-                            Chave Pix Oficial do Espaço
-                          </p>
-                          <p className="text-sm font-bold text-[#2D2D2D]">
-                            {ps.pixKey}
-                          </p>
-                          <p className="text-xs text-[#68645E]">
-                            Favorecido: {ps.pixHolderName}
-                          </p>
-                          <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                            <input
-                              type="text"
-                              readOnly
-                              value={pixCopyPasteCode}
-                              className="flex-1 rounded-lg border border-[#E5DEC9] bg-[#FAF9F6] px-3 py-2 text-xs text-[#68645E] font-mono truncate"
-                            />
-                            <button
-                              type="button"
-                              onClick={handleCopyPix}
-                              className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#2D2D2D] hover:bg-[#404040] text-white px-4 py-2 text-xs font-semibold transition-all shrink-0"
-                            >
-                              {pixCopied ? (
-                                <>
-                                  <Check className="w-3.5 h-3.5 text-[#8A9A86]" /> Copiado!
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="w-3.5 h-3.5" /> Copiar Pix Copia e Cola
-                                </>
-                              )}
-                            </button>
-                          </div>
-                        </div>
+                    <div className="border border-[#D4AF37]/40 bg-white p-6 flex flex-col sm:flex-row items-center gap-6">
+                      <div className="w-28 h-28 border border-[#E5DEC9] bg-[#FAF9F6] p-3 flex flex-col items-center justify-center shrink-0">
+                        <QrCode className="w-16 h-16 text-[#2D2D2D] stroke-[1.25]" />
                       </div>
-                    </div>
-                  )}
-
-                  {/* Dynamic Credit Card Installments Box */}
-                  {paymentMethod === 'credit_card' && ps.creditCardEnabled && (
-                    <div className="rounded-2xl border border-[#C8A29E]/40 bg-white p-5 space-y-4">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                          <label
-                            htmlFor="card-installments"
-                            className="block text-xs font-semibold uppercase tracking-wider text-[#68645E] mb-1"
+                      <div className="flex-1 space-y-2 text-center sm:text-left">
+                        <span className="text-[10px] uppercase tracking-[0.22em] text-[#6E7F6A] font-semibold">
+                          Chave Pix Oficial • {ps.pixHolderName}
+                        </span>
+                        <p className="text-sm font-medium text-[#2D2D2D]">{ps.pixKey}</p>
+                        <div className="pt-1 flex flex-col sm:flex-row gap-2">
+                          <input
+                            type="text"
+                            readOnly
+                            value={pixCopyPasteCode}
+                            className="flex-1 border border-[#E5DEC9] bg-[#FAF9F6] px-3 py-2 text-xs text-[#68645E] font-mono truncate"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleCopyPix}
+                            className="inline-flex items-center justify-center gap-2 bg-[#2D2D2D] text-white px-5 py-2 text-xs uppercase tracking-[0.16em]"
                           >
-                            Número de Parcelas no Cartão de Crédito
-                          </label>
-                          <p className="text-xs text-[#8E8880]">
-                            Configurado pelo espaço em até {ps.creditCardMaxInstallments}x sem
-                            burocracia.
-                          </p>
+                            <Copy className="w-3.5 h-3.5" />
+                            {pixCopied ? 'Copiado' : 'Copiar Código'}
+                          </button>
                         </div>
-                        <select
-                          id="card-installments"
-                          value={installments}
-                          onChange={(e) => setInstallments(Number(e.target.value))}
-                          className="rounded-xl border border-[#D5CFC4] bg-[#FAF9F6] px-4 py-2.5 text-sm font-semibold text-[#2D2D2D] focus:outline-none focus:border-[#8A9A86]"
-                        >
-                          {Array.from(
-                            { length: ps.creditCardMaxInstallments },
-                            (_, idx) => idx + 1
-                          ).map((n) => (
-                            <option key={n} value={n}>
-                              {n}x de {formatCurrencyBRL(totalAmount / n)} sem juros
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="flex items-center gap-3 pt-2 border-t border-[#F4F1EA]">
-                        <label className="inline-flex items-center gap-2 text-xs text-[#2D2D2D] cursor-pointer">
-                          <input
-                            type="radio"
-                            name="cardTiming"
-                            checked={paymentTiming === 'online_advance'}
-                            onChange={() => setPaymentTiming('online_advance')}
-                            className="accent-[#8A9A86]"
-                          />
-                          Deixar pré-autorizado online agora
-                        </label>
-                        <label className="inline-flex items-center gap-2 text-xs text-[#2D2D2D] cursor-pointer">
-                          <input
-                            type="radio"
-                            name="cardTiming"
-                            checked={paymentTiming === 'in_person'}
-                            onChange={() => setPaymentTiming('in_person')}
-                            className="accent-[#8A9A86]"
-                          />
-                          Passar o cartão presencialmente no dia
-                        </label>
                       </div>
                     </div>
                   )}
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#E5DEC9]">
+                  {paymentMethod === 'credit_card' && ps.creditCardEnabled && (
+                    <div className="border border-[#E5DEC9] bg-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <span className="text-xs uppercase tracking-[0.18em] text-[#68645E]">
+                        Parcelamento desejado:
+                      </span>
+                      <select
+                        value={installments}
+                        onChange={(e) => setInstallments(Number(e.target.value))}
+                        className="border-b border-[#2D2D2D] bg-transparent py-2 px-3 text-sm text-[#2D2D2D] focus:outline-none"
+                      >
+                        {Array.from(
+                          { length: ps.creditCardMaxInstallments },
+                          (_, idx) => idx + 1
+                        ).map((n) => (
+                          <option key={n} value={n}>
+                            {n}x de {formatCurrencyBRL(totalAmount / n)} sem juros
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-[#E5DEC9]">
                     <button
                       type="button"
                       onClick={() => setStep(3)}
-                      className="inline-flex items-center gap-2 text-sm text-[#68645E] hover:text-[#2D2D2D] font-medium"
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[#68645E] hover:text-[#2D2D2D]"
                     >
-                      <ArrowLeft className="w-4 h-4" /> Voltar para Meus Dados
+                      <ArrowLeft className="w-3.5 h-3.5" /> Voltar
                     </button>
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8A9A86] hover:bg-[#6E7F6A] text-white px-8 py-3.5 text-sm font-semibold transition-all shadow-md"
+                      className="inline-flex items-center justify-center gap-3 bg-[#8A9A86] hover:bg-[#6E7F6A] text-white px-10 py-4 text-xs uppercase tracking-[0.24em] font-medium transition-colors"
                     >
-                      <ShieldCheck className="w-4 h-4" />
-                      Confirmar Agendamento ({formatCurrencyBRL(totalAmount)})
+                      Confirmar Reserva ({formatCurrencyBRL(totalAmount)})
+                      <ArrowRight className="w-4 h-4 stroke-[1.5]" />
                     </button>
                   </div>
                 </div>

@@ -4,24 +4,16 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Lock,
-  Sparkles,
   Clock,
-  Calendar,
   MapPin,
   Phone,
   Camera,
   MessageCircle,
-  CheckCircle2,
-  Heart,
-  ShieldCheck,
-  Award,
   ArrowUpRight,
+  ArrowRight,
   Menu,
   X,
   Navigation,
-  Users,
-  Flower2,
-  Eye,
 } from 'lucide-react';
 import { useClinic, formatCurrencyBRL, formatDateBR } from '@/lib/store';
 import { CATEGORY_LABELS, SpecialtyCategory } from '@/lib/types';
@@ -55,139 +47,116 @@ export default function HomePage() {
     /\D/g,
     ''
   )}?text=${encodeURIComponent(
-    'Olá Larissa! Gostaria de tirar uma dúvida sobre os procedimentos e horários disponíveis.'
+    'Olá Larissa! Gostaria de agendar uma avaliação ou tirar uma dúvida sobre os procedimentos.'
   )}`;
 
   return (
     <div id="inicio" className="min-h-screen flex flex-col bg-[#FAF9F6] text-[#2D2D2D]">
-      {/* 1. CABEÇALHO (HEADER) LIMPO */}
-      <header className="sticky top-0 z-50 bg-[#FAF9F6]/90 backdrop-blur-md border-b border-[#E8E2D5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-          {/* Brand Logo */}
+      {/* 1. CABEÇALHO (HEADER) EDITORIAL LIMPO */}
+      <header className="sticky top-0 z-50 bg-[#FAF9F6]/90 backdrop-blur-md border-b border-[#E6DFD2]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-24 flex items-center justify-between gap-6">
+          {/* Editorial Monogram & Logotype */}
           <a href="#inicio" className="group flex flex-col">
-            <span className="font-serif-editorial text-2xl sm:text-[28px] font-medium tracking-wide text-[#2D2D2D] leading-none">
-              Estética Larissa Soares
+            <span className="font-serif-editorial text-2xl sm:text-[32px] font-light tracking-[0.04em] text-[#2D2D2D] leading-none">
+              Larissa Soares
             </span>
-            <span className="text-[10px] uppercase tracking-[0.24em] text-[#6E7F6A] mt-1 font-medium">
-              Estética & Cosmetologia • Massoterapia • Lash Design
+            <span className="text-[9px] uppercase tracking-[0.34em] text-[#8A9A86] mt-1.5 font-medium">
+              Estética • Massoterapia • Lash Design
             </span>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-[#524E48]">
-            <a href="#inicio" className="hover:text-[#6E7F6A] transition-colors">
+          {/* Minimalist Editorial Navigation */}
+          <nav className="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.22em] font-medium text-[#5C5852]">
+            <a href="#inicio" className="hover:text-[#2D2D2D] transition-colors">
               Início
             </a>
-            <a href="#procedimentos" className="hover:text-[#6E7F6A] transition-colors">
-              Procedimentos
+            <a href="#procedimentos" className="hover:text-[#2D2D2D] transition-colors">
+              Protocolos
             </a>
-            <a href="#sobre-mim" className="hover:text-[#6E7F6A] transition-colors">
-              Sobre Mim
+            <a href="#sobre-mim" className="hover:text-[#2D2D2D] transition-colors">
+              A Especialista
             </a>
-            <a href="#comunidade-vip" className="hover:text-[#6E7F6A] transition-colors">
-              Comunidade VIP
+            <a href="#comunidade-vip" className="hover:text-[#2D2D2D] transition-colors">
+              Privé VIP
             </a>
-            <a href="#contato" className="hover:text-[#6E7F6A] transition-colors">
-              Contato
+            <a href="#contato" className="hover:text-[#2D2D2D] transition-colors">
+              Atelier
             </a>
           </nav>
 
           {/* Header Actions */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-4">
             <a
               href="#agendamento"
               id="header-cta-agendar"
-              className="inline-flex items-center gap-2 rounded-full bg-[#8A9A86] hover:bg-[#6E7F6A] text-white px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all shadow-xs"
+              className="inline-flex items-center gap-2.5 bg-[#2D2D2D] hover:bg-[#8A9A86] text-[#FAF9F6] px-6 py-3 text-[11px] uppercase tracking-[0.22em] font-medium transition-colors"
             >
-              <Calendar className="w-3.5 h-3.5" />
               Agendar Horário
             </a>
             <Link
               href="/admin"
               id="header-admin-lock"
               title="Área Restrita — Acesso exclusivo Larissa Soares"
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#E2DBD0] bg-[#F4F1EA]/80 hover:bg-[#EBE5D9] hover:border-[#D4AF37]/50 text-[#68645E] hover:text-[#2D2D2D] px-3.5 py-2 text-xs font-medium transition-all"
+              className="inline-flex items-center gap-2 border border-[#DFD8CA] hover:border-[#D4AF37] text-[#68645E] hover:text-[#2D2D2D] px-3.5 py-2.5 text-[10px] uppercase tracking-[0.2em] transition-colors"
             >
-              <Lock className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span className="hidden md:inline">Área Restrita</span>
+              <Lock className="w-3 h-3 text-[#D4AF37] stroke-[1.5]" />
+              <span className="hidden xl:inline">Área Restrita</span>
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="flex items-center gap-2 sm:hidden">
+          {/* Mobile Controls */}
+          <div className="flex items-center gap-2.5 sm:hidden">
             <Link
               href="/admin"
-              className="p-2 rounded-full border border-[#E2DBD0] bg-[#F4F1EA] text-[#68645E]"
+              className="p-2.5 border border-[#DFD8CA] text-[#68645E]"
               aria-label="Área Restrita"
             >
-              <Lock className="w-4 h-4 text-[#D4AF37]" />
+              <Lock className="w-3.5 h-3.5 text-[#D4AF37]" />
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="p-2 rounded-xl border border-[#E2DBD0] text-[#2D2D2D]"
+              className="p-2.5 border border-[#DFD8CA] text-[#2D2D2D]"
               aria-label="Abrir menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#FAF9F6] border-b border-[#E8E2D5] px-4 pt-3 pb-6 space-y-3">
-            <div className="flex flex-col space-y-2.5 text-sm font-medium text-[#2D2D2D]">
-              <a
-                href="#inicio"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 hover:text-[#6E7F6A]"
-              >
+          <div className="lg:hidden bg-[#FAF9F6] border-b border-[#E6DFD2] px-6 py-8 space-y-6">
+            <div className="flex flex-col space-y-4 text-xs uppercase tracking-[0.24em] text-[#2D2D2D]">
+              <a href="#inicio" onClick={() => setMobileMenuOpen(false)}>
                 Início
               </a>
-              <a
-                href="#procedimentos"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 hover:text-[#6E7F6A]"
-              >
-                Procedimentos
+              <a href="#procedimentos" onClick={() => setMobileMenuOpen(false)}>
+                Protocolos
               </a>
-              <a
-                href="#sobre-mim"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 hover:text-[#6E7F6A]"
-              >
-                Sobre Mim
+              <a href="#sobre-mim" onClick={() => setMobileMenuOpen(false)}>
+                A Especialista
               </a>
-              <a
-                href="#comunidade-vip"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 hover:text-[#6E7F6A]"
-              >
-                Comunidade VIP
+              <a href="#comunidade-vip" onClick={() => setMobileMenuOpen(false)}>
+                Privé VIP
               </a>
-              <a
-                href="#contato"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 hover:text-[#6E7F6A]"
-              >
-                Contato
+              <a href="#contato" onClick={() => setMobileMenuOpen(false)}>
+                Atelier & Contato
               </a>
             </div>
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="pt-4 border-t border-[#E6DFD2] flex flex-col gap-3">
               <a
                 href="#agendamento"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#8A9A86] text-white py-3 text-sm font-semibold"
+                className="w-full text-center bg-[#2D2D2D] text-[#FAF9F6] py-3.5 text-xs uppercase tracking-[0.22em]"
               >
-                <Calendar className="w-4 h-4" />
-                Agendar Horário Online
+                Agendar Horário
               </a>
               <Link
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-[#E2DBD0] bg-[#F4F1EA] text-[#68645E] py-2.5 text-xs font-medium"
+                className="w-full text-center border border-[#DFD8CA] text-[#68645E] py-3 text-[11px] uppercase tracking-[0.2em]"
               >
-                <Lock className="w-3.5 h-3.5 text-[#D4AF37]" />
                 Área Restrita (Proprietária)
               </Link>
             </div>
@@ -195,118 +164,116 @@ export default function HomePage() {
         )}
       </header>
 
-      {/* 2. HERO SECTION (BANNER PRINCIPAL) */}
-      <section className="relative overflow-hidden bg-luxury-texture pt-10 pb-20 sm:py-24 border-b border-[#EBE5D8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-            {/* Left Editorial Column */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2.5 border-b border-[#D4AF37]/50 pb-1.5">
-                <span className="text-xs uppercase tracking-[0.22em] text-[#6E7F6A] font-semibold">
-                  Atendimento Exclusivo & Individualizado
+      {/* 2. HERO SECTION — VOGUE / KINFOLK EDITORIAL */}
+      <section className="relative pt-14 pb-28 sm:py-32 border-b border-[#E6DFD2]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            {/* Editorial Copy Column */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="flex items-center gap-4">
+                <span className="w-10 h-[1px] bg-[#D4AF37]" />
+                <span className="text-[11px] uppercase tracking-[0.32em] text-[#8A9A86] font-medium">
+                  Atelier de Estética & Bem-Estar
                 </span>
               </div>
 
-              <h1 className="font-serif-editorial text-4xl sm:text-5xl lg:text-[58px] text-[#2D2D2D] font-normal leading-[1.08] tracking-tight">
-                Autocuidado sereno que realça a sua{' '}
-                <span className="italic font-medium text-[#A97E79]">beleza natural</span>.
+              <h1 className="font-serif-editorial text-5xl sm:text-6xl lg:text-[72px] text-[#2D2D2D] font-light leading-[1.03] tracking-[-0.01em]">
+                A arte do autocuidado em sua forma mais{' '}
+                <span className="italic text-[#C8A29E] font-normal">serena e natural</span>.
               </h1>
 
-              <p className="text-base sm:text-lg text-[#5C5852] leading-relaxed max-w-2xl">
-                Um refúgio acolhedor sob o cuidado integral de{' '}
-                <strong className="font-semibold text-[#2D2D2D]">Larissa Soares</strong> — com
-                formação e atuação dedicada exclusivamente em{' '}
-                <span className="text-[#2D2D2D] font-medium">
+              <p className="text-base sm:text-lg text-[#5C5852] font-light leading-relaxed max-w-xl">
+                Um espaço intimista conduzido integralmente por{' '}
+                <span className="text-[#2D2D2D] font-normal">Larissa Soares</span>, com atuação
+                exclusiva nas três vertentes do cuidado feminino:{' '}
+                <span className="text-[#2D2D2D] font-normal">
                   Estética & Cosmetologia, Massoterapia e Lash Design
                 </span>
                 .
               </p>
 
-              {/* CTA Group */}
-              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+              {/* Editorial CTA Group */}
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
                 <a
                   href="#agendamento"
                   id="hero-cta-agendar"
-                  className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#8A9A86] hover:bg-[#6E7F6A] text-white px-8 py-4 text-sm sm:text-base font-semibold transition-all shadow-md hover:shadow-lg"
+                  className="inline-flex items-center justify-center gap-4 bg-[#8A9A86] hover:bg-[#6E7F6A] text-white px-9 py-4.5 text-xs uppercase tracking-[0.24em] font-medium transition-all"
                 >
-                  <Calendar className="w-4 h-4" />
-                  Agendar Horário
+                  <span>Agendar Horário</span>
+                  <ArrowRight className="w-4 h-4 stroke-[1.5]" />
                 </a>
                 <a
                   href="#procedimentos"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D6CFC2] bg-[#FAF9F6] hover:border-[#C8A29E] hover:bg-[#F7EDEB]/40 text-[#2D2D2D] px-7 py-4 text-sm sm:text-base font-medium transition-all"
+                  className="inline-flex items-center justify-center gap-3 border-b border-[#2D2D2D] hover:border-[#C8A29E] text-[#2D2D2D] hover:text-[#A97E79] py-3 px-2 text-xs uppercase tracking-[0.24em] font-medium transition-colors"
                 >
-                  Conhecer Procedimentos
+                  Explorar Catálogo de Protocolos
                 </a>
               </div>
 
-              {/* 3 Exclusive Pillars Highlight */}
-              <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-[#E6DFD3]">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#EBF0E9] border border-[#8A9A86]/30 flex items-center justify-center shrink-0 mt-0.5">
-                    <Flower2 className="w-4 h-4 text-[#6E7F6A]" />
-                  </div>
-                  <div>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D]">
-                      Estética & Cosmetologia
-                    </h2>
-                    <p className="text-xs text-[#68645E] mt-0.5">
-                      Protocolos faciais e corporais não invasivos
-                    </p>
-                  </div>
+              {/* Roman Numeral Pillars */}
+              <div className="pt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 border-t border-[#E6DFD2]">
+                <div>
+                  <span className="font-serif-editorial italic text-lg text-[#D4AF37] block">
+                    I.
+                  </span>
+                  <h2 className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-semibold mt-1">
+                    Estética & Cosmetologia
+                  </h2>
+                  <p className="text-xs text-[#68645E] font-light mt-1.5 leading-relaxed">
+                    Protocolos botânicos faciais e corporais não invasivos para saúde e viço da
+                    pele.
+                  </p>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#F7EDEB] border border-[#C8A29E]/40 flex items-center justify-center shrink-0 mt-0.5">
-                    <Heart className="w-4 h-4 text-[#A97E79]" />
-                  </div>
-                  <div>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D]">
-                      Massoterapia
-                    </h2>
-                    <p className="text-xs text-[#68645E] mt-0.5">
-                      Drenagem linfática e relaxamento profundo
-                    </p>
-                  </div>
+                <div>
+                  <span className="font-serif-editorial italic text-lg text-[#D4AF37] block">
+                    II.
+                  </span>
+                  <h2 className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-semibold mt-1">
+                    Massoterapia
+                  </h2>
+                  <p className="text-xs text-[#68645E] font-light mt-1.5 leading-relaxed">
+                    Drenagem linfática precisa e terapias manuais de descompressão muscular.
+                  </p>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#F7F1DF] border border-[#D4AF37]/40 flex items-center justify-center shrink-0 mt-0.5">
-                    <Eye className="w-4 h-4 text-[#B38F22]" />
-                  </div>
-                  <div>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#2D2D2D]">
-                      Lash Design
-                    </h2>
-                    <p className="text-xs text-[#68645E] mt-0.5">
-                      Extensão fio a fio e Lash Lifting saudável
-                    </p>
-                  </div>
+                <div>
+                  <span className="font-serif-editorial italic text-lg text-[#D4AF37] block">
+                    III.
+                  </span>
+                  <h2 className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-semibold mt-1">
+                    Lash Design
+                  </h2>
+                  <p className="text-xs text-[#68645E] font-light mt-1.5 leading-relaxed">
+                    Visagismo do olhar com extensão fio a fio de seda e Lash Lifting nutritivo.
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Right Visual Showcase */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-[32px] overflow-hidden border border-[#E2DBD0] shadow-xl bg-[#F4F1EA]">
-                <img
-                  src="/images/hero-sanctuary.jpg"
-                  alt="Ambiente acolhedor e minimalista da clínica Estética Larissa Soares"
-                  className="w-full h-[380px] sm:h-[460px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2D2D2D]/45 via-transparent to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-[#FAF9F6]/95 backdrop-blur-md p-4 border border-[#D4AF37]/40 shadow-md">
-                  <div className="flex items-center justify-between gap-3">
+            {/* Right Architectural Arch Image */}
+            <div className="lg:col-span-5">
+              <div className="relative mx-auto max-w-md">
+                {/* Subtle Offset Gold Frame */}
+                <div className="absolute -inset-3 rounded-t-[240px] border border-[#D4AF37]/40 pointer-events-none" />
+                <div className="relative rounded-t-[230px] overflow-hidden bg-[#F4F1EA] shadow-[0_30px_70px_-20px_rgba(45,45,45,0.15)]">
+                  <img
+                    src="/images/hero-sanctuary.jpg"
+                    alt="Interior minimalista do Atelier Estética Larissa Soares"
+                    className="w-full h-[500px] sm:h-[560px] object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2D2D2D]/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 text-[#FAF9F6] border-t border-white/25 pt-4 flex items-end justify-between">
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-[#6E7F6A] font-semibold">
-                        Cabine Exclusiva • Hora Marcada
+                      <p className="text-[10px] uppercase tracking-[0.28em] text-[#D4AF37]">
+                        Atendimento Individualizado
                       </p>
-                      <p className="font-serif-editorial text-lg text-[#2D2D2D] font-medium">
-                        Você é atendida do início ao fim pela Larissa Soares
+                      <p className="font-serif-editorial italic text-xl mt-0.5">
+                        Cabine privativa com hora marcada
                       </p>
                     </div>
-                    <span className="w-10 h-10 rounded-full bg-[#EBF0E9] flex items-center justify-center shrink-0">
-                      <ShieldCheck className="w-5 h-5 text-[#6E7F6A]" />
+                    <span className="font-serif-editorial text-xs tracking-[0.2em] uppercase opacity-80">
+                      SP
                     </span>
                   </div>
                 </div>
@@ -316,35 +283,32 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. CATÁLOGO DE PROCEDIMENTOS (DINÂMICO) */}
-      <section id="procedimentos" className="py-20 sm:py-24 scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <span className="text-xs uppercase tracking-[0.22em] text-[#A97E79] font-semibold block mb-2">
-                Menu de Protocolos Exclusivos
-              </span>
-              <h2 className="font-serif-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2D2D2D] font-normal">
-                Catálogo de Procedimentos
-              </h2>
-              <p className="text-sm sm:text-base text-[#68645E] mt-2 max-w-xl">
-                Protocolos desenvolvidos exclusivamente dentro das três áreas de atuação de Larissa
-                Soares, priorizando saúde, naturalidade e bem-estar.
+      {/* 3. CATÁLOGO DE PROCEDIMENTOS (EDITORIAL GALLERY) */}
+      <section id="procedimentos" className="py-28 sm:py-36 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          {/* Editorial Header + Minimal Filter Tabs */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-20 border-b border-[#E6DFD2] pb-10">
+            <div className="max-w-xl">
+              <p className="text-[11px] uppercase tracking-[0.32em] text-[#A97E79] font-medium mb-3">
+                Curadoria de Tratamentos
               </p>
+              <h2 className="font-serif-editorial text-4xl sm:text-5xl lg:text-[56px] text-[#2D2D2D] font-light leading-[1.06]">
+                Menu de <span className="italic text-[#8A9A86]">Protocolos</span>
+              </h2>
             </div>
 
-            {/* Exclusive 3 Specialty Filter Tabs */}
+            {/* Delicate Underline Filter Tabs */}
             <div
-              className="flex flex-wrap gap-2 bg-[#F4F1EA] p-1.5 rounded-2xl border border-[#E5DEC9]"
+              className="flex flex-wrap gap-6 sm:gap-8"
               role="tablist"
-              aria-label="Filtro de especialidades"
+              aria-label="Especialidades"
             >
               {(
                 [
-                  { id: 'all', label: 'Todas as Áreas' },
-                  { id: 'estetica', label: 'Estética Facial & Corporal' },
-                  { id: 'massoterapia', label: 'Massoterapia' },
-                  { id: 'lash', label: 'Lash Design' },
+                  { id: 'all', label: 'Todos os Protocolos' },
+                  { id: 'estetica', label: 'I. Estética Facial & Corporal' },
+                  { id: 'massoterapia', label: 'II. Massoterapia' },
+                  { id: 'lash', label: 'III. Lash Design' },
                 ] as const
               ).map((tab) => {
                 const isActive = selectedCategory === tab.id;
@@ -355,10 +319,10 @@ export default function HomePage() {
                     role="tab"
                     aria-selected={isActive}
                     onClick={() => setSelectedCategory(tab.id)}
-                    className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                    className={`pb-2 text-xs uppercase tracking-[0.2em] transition-all border-b-2 ${
                       isActive
-                        ? 'bg-[#8A9A86] text-white shadow-xs font-semibold'
-                        : 'text-[#5C5852] hover:text-[#2D2D2D] hover:bg-[#FAF9F6]/60'
+                        ? 'border-[#2D2D2D] text-[#2D2D2D] font-semibold'
+                        : 'border-transparent text-[#8E8880] hover:text-[#2D2D2D]'
                     }`}
                   >
                     {tab.label}
@@ -368,105 +332,103 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Procedures Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+          {/* Editorial Procedure Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-9 gap-y-16">
             {visibleProcedures.map((proc) => {
               const hasPromo = isPromoValid(proc);
               const finalPrice = getEffectivePrice(proc);
 
               return (
-                <article
-                  key={proc.id}
-                  className="group rounded-3xl bg-white border border-[#E6DFD3] hover:border-[#C8A29E] overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col"
-                >
-                  {/* Card Image + Badges */}
-                  <div className="relative h-56 overflow-hidden bg-[#F4F1EA]">
-                    <img
-                      src={proc.imageUrl}
-                      alt={proc.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3.5 left-3.5 flex flex-wrap gap-2">
-                      <span className="rounded-full bg-[#FAF9F6]/95 backdrop-blur-xs border border-[#E5DEC9] px-3 py-1 text-[11px] font-semibold text-[#2D2D2D]">
-                        {CATEGORY_LABELS[proc.category]}
-                      </span>
-                    </div>
+                <article key={proc.id} className="group flex flex-col justify-between">
+                  <div>
+                    {/* Tall Editorial Image Container */}
+                    <div className="relative h-80 overflow-hidden bg-[#F4F1EA] mb-6">
+                      <img
+                        src={proc.imageUrl}
+                        alt={proc.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      />
+                      <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
 
-                    {hasPromo && (
-                      <div className="absolute top-3.5 right-3.5">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[#C8A29E] text-white px-3 py-1 text-xs font-semibold shadow-md">
-                          <Sparkles className="w-3 h-3" />
-                          Promoção
+                      {/* Category Tag */}
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-[#FAF9F6]/95 backdrop-blur-xs px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-[#2D2D2D] font-medium">
+                          {CATEGORY_LABELS[proc.category]}
                         </span>
                       </div>
-                    )}
 
-                    <div className="absolute bottom-3 right-3 rounded-full bg-[#2D2D2D]/80 backdrop-blur-xs text-[#FAF9F6] px-3 py-1 text-xs font-medium inline-flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      {proc.durationMinutes} min
+                      {/* Promo Ribbon if active in /admin */}
+                      {hasPromo && (
+                        <div className="absolute top-4 right-4">
+                          <span className="bg-[#C8A29E] text-white px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] font-medium shadow-sm">
+                            Promoção
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Duration Pill */}
+                      <div className="absolute bottom-4 left-4 bg-[#2D2D2D]/80 backdrop-blur-xs text-[#FAF9F6] px-3 py-1 text-[11px] tracking-[0.14em] inline-flex items-center gap-1.5">
+                        <Clock className="w-3 h-3 text-[#D4AF37] stroke-[1.5]" />
+                        {proc.durationMinutes} min
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Card Body */}
-                  <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
+                    {/* Title & Description */}
                     <div className="space-y-3">
-                      <h3 className="font-serif-editorial text-2xl text-[#2D2D2D] font-medium leading-snug">
+                      <h3 className="font-serif-editorial text-2xl sm:text-[28px] text-[#2D2D2D] font-normal leading-snug">
                         {proc.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-[#68645E] leading-relaxed">
+                      <p className="text-sm text-[#68645E] font-light leading-relaxed">
                         {proc.description}
                       </p>
 
                       {proc.benefits && proc.benefits.length > 0 && (
-                        <ul className="space-y-1.5 pt-1">
+                        <ul className="pt-2 space-y-1.5 border-t border-[#EFECE4]">
                           {proc.benefits.map((b, idx) => (
                             <li
                               key={idx}
-                              className="flex items-start gap-2 text-xs text-[#524E48]"
+                              className="text-xs text-[#5C5852] font-light flex items-center gap-2.5"
                             >
-                              <CheckCircle2 className="w-3.5 h-3.5 text-[#8A9A86] shrink-0 mt-0.5" />
+                              <span className="w-1 h-1 rounded-full bg-[#D4AF37] shrink-0" />
                               <span>{b}</span>
                             </li>
                           ))}
                         </ul>
                       )}
                     </div>
+                  </div>
 
-                    {/* Price + CTA */}
-                    <div className="pt-4 border-t border-[#F0ECE1] space-y-4">
-                      <div className="flex items-baseline justify-between">
-                        <div>
-                          <span className="text-[11px] uppercase tracking-wider text-[#8E8880] block">
-                            Investimento
-                          </span>
-                          <div className="flex items-baseline gap-2 mt-0.5">
-                            {hasPromo && (
-                              <span className="text-sm text-[#9E9890] line-through">
-                                {formatCurrencyBRL(proc.originalPrice)}
-                              </span>
-                            )}
-                            <span className="text-2xl font-bold text-[#2D2D2D]">
-                              {formatCurrencyBRL(finalPrice)}
-                            </span>
-                          </div>
-                        </div>
-
-                        {hasPromo && proc.promoValidUntil && (
-                          <span className="text-[11px] text-[#A97E79] font-medium bg-[#F7EDEB] px-2.5 py-1 rounded-lg">
-                            Oferta até {formatDateBR(proc.promoValidUntil)}
+                  {/* Price & Editorial Action */}
+                  <div className="pt-6 mt-6 border-t border-[#E6DFD2] flex items-end justify-between gap-4">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.22em] text-[#8E8880] block">
+                        Sessão Individual
+                      </span>
+                      <div className="flex items-baseline gap-2.5 mt-0.5">
+                        {hasPromo && (
+                          <span className="text-xs text-[#A59F96] line-through">
+                            {formatCurrencyBRL(proc.originalPrice)}
                           </span>
                         )}
+                        <span className="font-serif-editorial text-3xl text-[#2D2D2D]">
+                          {formatCurrencyBRL(finalPrice)}
+                        </span>
                       </div>
-
-                      <button
-                        type="button"
-                        onClick={() => handleBookProcedure(proc.id)}
-                        className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#FAF9F6] hover:bg-[#8A9A86] text-[#2D2D2D] hover:text-white border border-[#D5CFC4] hover:border-[#8A9A86] py-3 px-5 text-xs sm:text-sm font-semibold transition-all"
-                      >
-                        <Calendar className="w-4 h-4" />
-                        Agendar este procedimento
-                      </button>
+                      {hasPromo && proc.promoValidUntil && (
+                        <span className="text-[10px] uppercase tracking-[0.16em] text-[#A97E79] block mt-0.5">
+                          Válido até {formatDateBR(proc.promoValidUntil)}
+                        </span>
+                      )}
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleBookProcedure(proc.id)}
+                      className="inline-flex items-center gap-2 bg-[#2D2D2D] hover:bg-[#8A9A86] text-[#FAF9F6] px-5 py-3 text-[10px] uppercase tracking-[0.22em] font-medium transition-colors"
+                    >
+                      <span>Agendar</span>
+                      <ArrowRight className="w-3.5 h-3.5 stroke-[1.5]" />
+                    </button>
                   </div>
                 </article>
               );
@@ -475,100 +437,96 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. SOBRE A ESPECIALISTA */}
+      {/* 4. SOBRE A ESPECIALISTA — ASYMMETRIC MAGAZINE SPREAD */}
       <section
         id="sobre-mim"
-        className="py-20 sm:py-24 bg-[#F4F1EA] border-t border-[#E6DFD3] scroll-mt-20"
+        className="py-28 sm:py-36 bg-[#F4F1EA] border-t border-[#E6DFD2] scroll-mt-20"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Specialist Portrait */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            {/* Portrait in Editorial Arch */}
             <div className="lg:col-span-5">
               <div className="relative mx-auto max-w-md">
-                <div className="rounded-[32px] overflow-hidden border-2 border-[#D4AF37]/40 shadow-lg bg-[#FAF9F6]">
+                <div className="absolute -inset-3 border border-[#D4AF37]/40 pointer-events-none" />
+                <div className="relative overflow-hidden bg-[#FAF9F6]">
                   <img
                     src="/images/larissa-portrait.jpg"
-                    alt="Larissa Soares — Esteticista e Cosmetóloga, Massoterapeuta e Lash Designer"
-                    className="w-full h-[460px] object-cover object-top"
+                    alt="Retrato editorial de Larissa Soares"
+                    className="w-full h-[520px] object-cover object-top"
                   />
                 </div>
-                <div className="mt-4 rounded-2xl bg-[#FAF9F6] border border-[#E5DEC9] p-4 flex items-center gap-3.5 shadow-xs">
-                  <div className="w-10 h-10 rounded-xl bg-[#F7F1DF] border border-[#D4AF37]/40 flex items-center justify-center shrink-0">
-                    <Award className="w-5 h-5 text-[#B38F22]" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-[#2D2D2D]">
-                      {db.settings.professionalName}
-                    </p>
-                    <p className="text-[11px] text-[#68645E]">
-                      {db.settings.crbmOrRegister}
-                    </p>
-                  </div>
+                <div className="mt-5 flex items-center justify-between border-b border-[#D5CFC4] pb-3">
+                  <span className="font-serif-editorial italic text-xl text-[#2D2D2D]">
+                    {db.settings.professionalName}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.24em] text-[#6E7F6A]">
+                    Fundadora & Especialista
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Specialist Bio & Credentials */}
-            <div className="lg:col-span-7 space-y-6">
-              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-[#6E7F6A] font-semibold">
-                Conheça a Especialista
-              </span>
+            {/* Editorial Bio */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="flex items-center gap-4">
+                <span className="w-10 h-[1px] bg-[#D4AF37]" />
+                <span className="text-[11px] uppercase tracking-[0.32em] text-[#6E7F6A] font-medium">
+                  A Especialista
+                </span>
+              </div>
 
-              <h2 className="font-serif-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2D2D2D] font-normal leading-tight">
-                Cuidado artesanal, técnico e individualizado por{' '}
-                <span className="italic text-[#A97E79]">Larissa Soares</span>
+              <h2 className="font-serif-editorial text-4xl sm:text-5xl lg:text-[54px] text-[#2D2D2D] font-light leading-[1.08]">
+                Um olhar técnico, sensível e{' '}
+                <span className="italic text-[#A97E79]">inteiramente dedicado a você</span>.
               </h2>
 
-              <p className="text-sm sm:text-base text-[#5C5852] leading-relaxed">
-                Acredito que a verdadeira estética vai muito além de padrões artificiais: ela nasce
-                do equilíbrio entre uma pele saudável, um corpo livre de tensões e um olhar que
-                expressa sua essência com leveza.
+              <p className="text-base text-[#5C5852] font-light leading-relaxed">
+                Com formação e atuação dedicada exclusivamente como{' '}
+                <strong className="font-medium text-[#2D2D2D]">
+                  Esteticista e Cosmetóloga, Massoterapeuta e Lash Designer
+                </strong>
+                , Larissa Soares idealizou seu atelier para mulheres que valorizam resultados
+                elegantes, naturais e livres de excessos.
               </p>
 
-              <p className="text-sm sm:text-base text-[#5C5852] leading-relaxed">
-                Em meu espaço, sou a única profissional atuante. Isso significa que cada avaliação,
-                cada escolha de ativo cosmético, cada manobra de massoterapia e cada mapeamento de
-                cílios é realizado pessoalmente por mim, no seu tempo e sem pressa.
+              <p className="text-base text-[#5C5852] font-light leading-relaxed">
+                Por ser a única profissional atuante no espaço, cada sessão respeita o ritmo
+                biológico da sua pele e do seu corpo — com escuta atenta, dermocosméticos de alta
+                pureza e rigor absoluto em biossegurança.
               </p>
 
-              {/* 3 Qualification Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                <div className="rounded-2xl bg-[#FAF9F6] border border-[#E5DEC9] p-4">
-                  <span className="text-[11px] uppercase tracking-wider text-[#6E7F6A] font-bold">
-                    Formação 01
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-[#DFD8CA]">
+                <div className="space-y-2">
+                  <span className="text-[10px] uppercase tracking-[0.26em] text-[#8A9A86] font-semibold">
+                    Especialidade I
                   </span>
-                  <h3 className="font-serif-editorial text-xl text-[#2D2D2D] font-semibold mt-1">
-                    Esteticista & Cosmetóloga
+                  <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">
+                    Estética & Cosmetologia
                   </h3>
-                  <p className="text-xs text-[#68645E] mt-1.5 leading-relaxed">
-                    Análise bioquímica da pele e formulações botânicas seguras para resultados
-                    reais e duradouros.
+                  <p className="text-xs text-[#68645E] font-light leading-relaxed">
+                    Química cosmética aplicada à renovação celular, hidratação profunda e equilíbrio
+                    cutâneo.
                   </p>
                 </div>
 
-                <div className="rounded-2xl bg-[#FAF9F6] border border-[#E5DEC9] p-4">
-                  <span className="text-[11px] uppercase tracking-wider text-[#A97E79] font-bold">
-                    Formação 02
+                <div className="space-y-2">
+                  <span className="text-[10px] uppercase tracking-[0.26em] text-[#A97E79] font-semibold">
+                    Especialidade II
                   </span>
-                  <h3 className="font-serif-editorial text-xl text-[#2D2D2D] font-semibold mt-1">
-                    Massoterapeuta
-                  </h3>
-                  <p className="text-xs text-[#68645E] mt-1.5 leading-relaxed">
-                    Domínio anatômico em drenagem linfática manual e liberação miofascial
-                    relaxante.
+                  <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">Massoterapia</h3>
+                  <p className="text-xs text-[#68645E] font-light leading-relaxed">
+                    Drenagem linfática manual precisa e descompressão neuro-sensorial com pedras
+                    quentes.
                   </p>
                 </div>
 
-                <div className="rounded-2xl bg-[#FAF9F6] border border-[#E5DEC9] p-4">
-                  <span className="text-[11px] uppercase tracking-wider text-[#B38F22] font-bold">
-                    Formação 03
+                <div className="space-y-2">
+                  <span className="text-[10px] uppercase tracking-[0.26em] text-[#B38F22] font-semibold">
+                    Especialidade III
                   </span>
-                  <h3 className="font-serif-editorial text-xl text-[#2D2D2D] font-semibold mt-1">
-                    Lash Designer
-                  </h3>
-                  <p className="text-xs text-[#68645E] mt-1.5 leading-relaxed">
-                    Visagismo do olhar com isolamento técnico impecável que preserva 100% a saúde
-                    dos fios naturais.
+                  <h3 className="font-serif-editorial text-2xl text-[#2D2D2D]">Lash Design</h3>
+                  <p className="text-xs text-[#68645E] font-light leading-relaxed">
+                    Arquitetura do olhar com fios tecnológicos de seda e nutrição de queratina.
                   </p>
                 </div>
               </div>
@@ -577,130 +535,127 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. COMUNIDADE VIP & REDES SOCIAIS */}
-      <section id="comunidade-vip" className="py-20 sm:py-24 bg-[#FAF9F6] scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[36px] bg-gradient-to-br from-[#EBF0E9] via-[#FAF9F6] to-[#F7EDEB] border border-[#D4AF37]/40 p-8 sm:p-12 lg:p-14 shadow-md">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-7 space-y-5">
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/90 border border-[#D4AF37]/40 px-3.5 py-1 text-xs font-semibold text-[#6E7F6A]">
-                  <Users className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  Clube Exclusivo de Clientes
-                </div>
+      {/* 5. COMUNIDADE VIP & REDES SOCIAIS — EDITORIAL PRIVÉ */}
+      <section id="comunidade-vip" className="py-28 sm:py-36 bg-[#FAF9F6] scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="border border-[#D4AF37]/45 bg-[#F4F1EA]/50 p-8 sm:p-14 lg:p-20">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              <div className="lg:col-span-7 space-y-6">
+                <span className="text-[11px] uppercase tracking-[0.32em] text-[#6E7F6A] font-medium block">
+                  Privé • Comunidade Exclusiva
+                </span>
 
-                <h2 className="font-serif-editorial text-3xl sm:text-4xl lg:text-5xl text-[#2D2D2D] font-normal leading-tight">
-                  Faça parte do nosso{' '}
-                  <span className="italic font-medium text-[#6E7F6A]">Grupo VIP no WhatsApp</span>
+                <h2 className="font-serif-editorial text-4xl sm:text-5xl text-[#2D2D2D] font-light leading-[1.08]">
+                  Grupo VIP <span className="italic text-[#A97E79]">Larissa Soares</span> no
+                  WhatsApp
                 </h2>
 
-                <p className="text-sm sm:text-base text-[#5C5852] leading-relaxed max-w-xl">
-                  Um canal silencioso, acolhedor e sem spam onde a Larissa compartilha em primeira
-                  mão oportunidades especiais para quem ama se cuidar:
+                <p className="text-sm sm:text-base text-[#5C5852] font-light leading-relaxed max-w-xl">
+                  Um círculo reservado para clientes que desejam acompanhar de perto a rotina do
+                  atelier e ter acesso prioritário à agenda:
                 </p>
 
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-[#2D2D2D]">
-                  <li className="flex items-center gap-2.5 bg-white/80 rounded-xl p-3 border border-[#E5DEC9]">
-                    <CheckCircle2 className="w-4 h-4 text-[#6E7F6A] shrink-0" />
-                    <span>Avisos de horários vagos de última hora</span>
-                  </li>
-                  <li className="flex items-center gap-2.5 bg-white/80 rounded-xl p-3 border border-[#E5DEC9]">
-                    <CheckCircle2 className="w-4 h-4 text-[#6E7F6A] shrink-0" />
-                    <span>Condições e mimos exclusivos para membros</span>
-                  </li>
-                  <li className="flex items-center gap-2.5 bg-white/80 rounded-xl p-3 border border-[#E5DEC9]">
-                    <CheckCircle2 className="w-4 h-4 text-[#6E7F6A] shrink-0" />
-                    <span>Dicas práticas de skincare e rotina em casa</span>
-                  </li>
-                  <li className="flex items-center gap-2.5 bg-white/80 rounded-xl p-3 border border-[#E5DEC9]">
-                    <CheckCircle2 className="w-4 h-4 text-[#6E7F6A] shrink-0" />
-                    <span>Cuidados pós-Lash e automassagem facial</span>
-                  </li>
-                </ul>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs uppercase tracking-[0.16em] text-[#2D2D2D]">
+                  <div className="border-l-2 border-[#8A9A86] pl-4 py-1">
+                    Avisos de horários vagos de última hora
+                  </div>
+                  <div className="border-l-2 border-[#C8A29E] pl-4 py-1">
+                    Condições exclusivas em protocolos sazonais
+                  </div>
+                  <div className="border-l-2 border-[#D4AF37] pl-4 py-1">
+                    Rituais de skincare e autocuidado em casa
+                  </div>
+                  <div className="border-l-2 border-[#8A9A86] pl-4 py-1">
+                    Orientações de longevidade para Lash Design
+                  </div>
+                </div>
 
-                <div className="pt-2">
+                <div className="pt-4">
                   <a
                     href={db.settings.vipGroupUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     id="vip-whatsapp-btn"
-                    className="inline-flex items-center justify-center gap-2.5 rounded-full bg-[#6E7F6A] hover:bg-[#5B6B57] text-white px-8 py-4 text-sm sm:text-base font-semibold transition-all shadow-md"
+                    className="inline-flex items-center gap-3 bg-[#6E7F6A] hover:bg-[#2D2D2D] text-white px-9 py-4 text-xs uppercase tracking-[0.24em] font-medium transition-colors"
                   >
-                    <MessageCircle className="w-5 h-5" />
-                    Entrar no Grupo VIP do WhatsApp
-                    <ArrowUpRight className="w-4 h-4" />
+                    <MessageCircle className="w-4 h-4 stroke-[1.5]" />
+                    <span>Ingressar no Grupo VIP</span>
+                    <ArrowUpRight className="w-4 h-4 stroke-[1.5]" />
                   </a>
                 </div>
               </div>
 
-              {/* Social Channels Card */}
-              <div className="lg:col-span-5">
-                <div className="rounded-3xl bg-white/95 border border-[#E5DEC9] p-6 sm:p-8 space-y-5 shadow-xs">
-                  <div>
-                    <span className="text-xs uppercase tracking-[0.2em] text-[#A97E79] font-semibold">
-                      Canais Oficiais
-                    </span>
-                    <h3 className="font-serif-editorial text-2xl text-[#2D2D2D] mt-1">
-                      Acompanhe resultados reais e rotina no espaço
-                    </h3>
-                  </div>
+              {/* Editorial Social Channels */}
+              <div className="lg:col-span-5 border-t lg:border-t-0 lg:border-l border-[#DFD8CA] pt-8 lg:pt-0 lg:pl-12 space-y-6">
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.28em] text-[#A97E79] block">
+                    Presença Digital
+                  </span>
+                  <h3 className="font-serif-editorial text-3xl text-[#2D2D2D] font-light mt-1">
+                    Canais Oficiais
+                  </h3>
+                </div>
 
-                  <div className="space-y-3">
-                    <a
-                      href={db.settings.instagramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between p-4 rounded-2xl border border-[#E5DEC9] hover:border-[#C8A29E] bg-[#FAF9F6] transition-all group"
-                    >
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-[#F7EDEB] flex items-center justify-center text-[#A97E79]">
-                          <Camera className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[#2D2D2D]">Instagram Oficial</p>
-                          <p className="text-xs text-[#68645E]">@esteticalarissasoares</p>
-                        </div>
+                <div className="divide-y divide-[#E5DEC9] border-y border-[#E5DEC9]">
+                  <a
+                    href={db.settings.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-4 flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <Camera className="w-4 h-4 text-[#A97E79] stroke-[1.5]" />
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-medium">
+                          Instagram
+                        </p>
+                        <p className="text-xs text-[#68645E] font-light">
+                          @esteticalarissasoares
+                        </p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#8E8880] group-hover:text-[#2D2D2D]" />
-                    </a>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-[#8E8880] group-hover:text-[#2D2D2D] transition-colors" />
+                  </a>
 
-                    <a
-                      href={db.settings.tiktokUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between p-4 rounded-2xl border border-[#E5DEC9] hover:border-[#C8A29E] bg-[#FAF9F6] transition-all group"
-                    >
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-[#F7F1DF] flex items-center justify-center text-[#B38F22]">
-                          <Sparkles className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[#2D2D2D]">TikTok & Reels</p>
-                          <p className="text-xs text-[#68645E]">Bastidores, ASMR Spa & Dicas</p>
-                        </div>
+                  <a
+                    href={db.settings.tiktokUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-4 flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <Clock className="w-4 h-4 text-[#D4AF37] stroke-[1.5]" />
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-medium">
+                          TikTok & Diário Visual
+                        </p>
+                        <p className="text-xs text-[#68645E] font-light">
+                          Bastidores & Rituais de Cabine
+                        </p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#8E8880] group-hover:text-[#2D2D2D]" />
-                    </a>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-[#8E8880] group-hover:text-[#2D2D2D] transition-colors" />
+                  </a>
 
-                    <a
-                      href={whatsappDirectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between p-4 rounded-2xl border border-[#E5DEC9] hover:border-[#8A9A86] bg-[#FAF9F6] transition-all group"
-                    >
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-[#EBF0E9] flex items-center justify-center text-[#6E7F6A]">
-                          <Phone className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[#2D2D2D]">
-                            WhatsApp Direto da Larissa
-                          </p>
-                          <p className="text-xs text-[#68645E]">Atendimento e dúvidas</p>
-                        </div>
+                  <a
+                    href={whatsappDirectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-4 flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-4">
+                      <Phone className="w-4 h-4 text-[#6E7F6A] stroke-[1.5]" />
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-[#2D2D2D] font-medium">
+                          Concierge WhatsApp
+                        </p>
+                        <p className="text-xs text-[#68645E] font-light">
+                          Contato direto com Larissa Soares
+                        </p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-[#8E8880] group-hover:text-[#2D2D2D]" />
-                    </a>
-                  </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-[#8E8880] group-hover:text-[#2D2D2D] transition-colors" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -708,113 +663,89 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. SISTEMA DE AGENDAMENTO ONLINE (FLUXO DE 4 PASSOS) */}
+      {/* 6. SISTEMA DE AGENDAMENTO ONLINE (4 PASSOS) */}
       <BookingSection
         preselectedProcedureIds={preselectedBookingIds}
         onClearPreselected={() => setPreselectedBookingIds([])}
       />
 
-      {/* 7. RODAPÉ (FOOTER) */}
-      <footer id="contato" className="bg-[#2D2D2D] text-[#FAF9F6] pt-16 pb-12 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
-            {/* Brand Column */}
+      {/* 7. RODAPÉ (FOOTER) EDITORIAL */}
+      <footer id="contato" className="bg-[#2D2D2D] text-[#FAF9F6] pt-20 pb-14 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
             <div className="lg:col-span-4 space-y-4">
-              <span className="font-serif-editorial text-3xl text-[#FAF9F6] block">
+              <span className="font-serif-editorial text-3xl text-[#FAF9F6] font-light tracking-wide block">
                 {db.settings.clinicName}
               </span>
-              <p className="text-xs uppercase tracking-[0.2em] text-[#D4AF37]">
+              <p className="text-[10px] uppercase tracking-[0.28em] text-[#D4AF37]">
                 {db.settings.professionalTitle}
               </p>
-              <p className="text-sm text-[#C8C3B9] leading-relaxed">
-                Espaço dedicado exclusivamente à Estética Facial & Corporal, Massoterapia e Lash
-                Design, com biossegurança rigorosa e atendimento individualizado.
+              <p className="text-xs text-[#C8C3B9] font-light leading-relaxed max-w-sm">
+                Atelier exclusivo voltado à Estética & Cosmetologia, Massoterapia e Lash Design.
               </p>
             </div>
 
-            {/* Location & Maps/Waze Links */}
             <div className="lg:col-span-5 space-y-4">
-              <h3 className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] font-semibold">
-                Localização & Horário de Atendimento
+              <h3 className="text-[10px] uppercase tracking-[0.28em] text-[#D4AF37]">
+                Endereço & Horário de Funcionamento
               </h3>
-              <div className="flex items-start gap-3 text-sm text-[#E5E0D8]">
-                <MapPin className="w-4 h-4 text-[#C8A29E] shrink-0 mt-1" />
+              <p className="text-xs text-[#E5E0D8] font-light flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-[#C8A29E] shrink-0 mt-0.5 stroke-[1.5]" />
                 <span>{db.settings.addressLine}</span>
-              </div>
-              <div className="flex items-start gap-3 text-sm text-[#E5E0D8]">
-                <Clock className="w-4 h-4 text-[#8A9A86] shrink-0 mt-1" />
+              </p>
+              <p className="text-xs text-[#E5E0D8] font-light flex items-start gap-2.5">
+                <Clock className="w-4 h-4 text-[#8A9A86] shrink-0 mt-0.5 stroke-[1.5]" />
                 <span>{db.settings.openingHoursText}</span>
-              </div>
+              </p>
 
               <div className="pt-2 flex flex-wrap gap-3">
                 <a
                   href={db.settings.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 text-[#FAF9F6] px-4 py-2 text-xs font-medium transition-colors"
+                  className="inline-flex items-center gap-2 border border-white/15 hover:border-[#D4AF37] px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-[#FAF9F6] transition-colors"
                 >
-                  <MapPin className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  Abrir no Google Maps
+                  <MapPin className="w-3 h-3 text-[#D4AF37]" />
+                  Google Maps
                 </a>
                 <a
                   href={db.settings.wazeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/20 text-[#FAF9F6] px-4 py-2 text-xs font-medium transition-colors"
+                  className="inline-flex items-center gap-2 border border-white/15 hover:border-[#8A9A86] px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-[#FAF9F6] transition-colors"
                 >
-                  <Navigation className="w-3.5 h-3.5 text-[#8A9A86]" />
-                  Como chegar pelo Waze
+                  <Navigation className="w-3 h-3 text-[#8A9A86]" />
+                  Waze
                 </a>
               </div>
             </div>
 
-            {/* Quick Links & Admin Access */}
-            <div className="lg:col-span-3 space-y-4">
-              <h3 className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] font-semibold">
-                Navegação Rápida
-              </h3>
-              <ul className="space-y-2 text-sm text-[#C8C3B9]">
-                <li>
-                  <a href="#procedimentos" className="hover:text-white transition-colors">
-                    Catálogo de Procedimentos
-                  </a>
-                </li>
-                <li>
-                  <a href="#sobre-mim" className="hover:text-white transition-colors">
-                    Sobre Larissa Soares
-                  </a>
-                </li>
-                <li>
-                  <a href="#comunidade-vip" className="hover:text-white transition-colors">
-                    Comunidade VIP WhatsApp
-                  </a>
-                </li>
-                <li>
-                  <a href="#agendamento" className="hover:text-white transition-colors">
-                    Agendamento Online
-                  </a>
-                </li>
-              </ul>
-
-              <div className="pt-3">
+            <div className="lg:col-span-3 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <h3 className="text-[10px] uppercase tracking-[0.28em] text-[#D4AF37]">
+                  Acesso Proprietária
+                </h3>
+                <p className="text-xs text-[#C8C3B9] font-light">
+                  Gerenciamento de agenda, catálogo, promoções e fluxo financeiro.
+                </p>
+              </div>
+              <div>
                 <Link
                   href="/admin"
                   id="footer-admin-login-link"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 px-4 py-2.5 text-xs text-[#E5E0D8] transition-colors"
+                  className="inline-flex items-center gap-2.5 border border-white/20 hover:border-[#D4AF37] px-5 py-3 text-[10px] uppercase tracking-[0.22em] text-[#FAF9F6] transition-colors"
                 >
-                  <Lock className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  Acesso Administrativo (Larissa)
+                  <Lock className="w-3.5 h-3.5 text-[#D4AF37] stroke-[1.5]" />
+                  Área Restrita (/admin)
                 </Link>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#9E9890]">
-            <p>
-              © {new Date().getFullYear()} {db.settings.clinicName}. Todos os direitos reservados.
-            </p>
-            <p>
-              Atuação exclusiva: Estética & Cosmetologia • Massoterapia • Lash Design
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#9E9890] font-light">
+            <p>© {new Date().getFullYear()} Estética Larissa Soares.</p>
+            <p className="uppercase tracking-[0.2em] text-[10px]">
+              Estética & Cosmetologia • Massoterapia • Lash Design
             </p>
           </div>
         </div>
